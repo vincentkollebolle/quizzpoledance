@@ -10,7 +10,8 @@
             <tr>
                 <th>Question</th>
                 <th>Intitulé</th>
-                <th>Propositions / Réponse</th>
+                <th>Propositions</th>
+                <th>Réponse</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -21,8 +22,11 @@
                 <td>{{ question.content}} </td>
                 <td>
                     {% for answer in question.answers %}
-                       <span class="badge badge-pill {% if answer.correct %}badge-success{% else %}badge-secondary{% endif %} p-2">{{ answer.content }}</span> 
+                       <span class="badge badge-pill  p-2">{{ answer.content }}</span> 
                     {% endfor %}
+                </td>
+                <td>
+                    {{question.goodanswer.content}}
                 </td>
                 <td>                    
                     <a class="btn btn-outline-primary" href="{{ path('question_show', {'id': question.id}) }}">show</a>

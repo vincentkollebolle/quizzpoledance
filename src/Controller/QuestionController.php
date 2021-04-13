@@ -36,8 +36,6 @@ class QuestionController extends AbstractController
         $answer = new Answer();
 
         $formQuestion = $this->createForm(QuestionType::class, $question);
-        $formAnswer = $this->createForm(AnswerType::class, $answer);
-        
         $formQuestion->handleRequest($request);
 
         if ($formQuestion->isSubmitted() && $formQuestion->isValid()) {
@@ -52,12 +50,13 @@ class QuestionController extends AbstractController
         return $this->render('question/new.html.twig', [
             'question' => $question,
             'formquestion' => $formQuestion->createView(),
-            'formanswer' => $formAnswer->createView()
         ]);
     }
 
+
+
     /**
-     * @Route("/{id}", name="question_show", methods={"GET"})
+     * @Route("/{id}", name="question_show", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(Question $question): Response
     {
@@ -67,15 +66,27 @@ class QuestionController extends AbstractController
     }
 
     /**
+     * @Route("/onequestion", name="question_test", methods={"GET"})
+     */
+    public function onequestion(QuestionRepository $questionRepository): Response
+    {
+        $question = $questionRepository->find(1);
+        return $this->render(
+            'question/onequestion.html.twig',
+            ['question' => $question]);
+    }
+
+
+    /**
      * @Route("/{id}/edit", name="question_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Question $question): Response
     {
-        $form = $this->createForm(QuestionType::class, $question);
-        $form->handleRequest($request);
+        $formquestion = $this->createForm(QuestionType::class, $question);
+        $formquestion->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $question = $form->getData();
+        if ($formquestion->isSubmitted() && $formquestion->isValid()) {
+            $question = $formquestion->getData();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($question);
             $entityManager->flush();
@@ -85,7 +96,7 @@ class QuestionController extends AbstractController
 
         return $this->render('question/edit.html.twig', [
             'question' => $question,
-            'form' => $form->createView(),
+            'formquestion' => $formquestion->createView(),
         ]);
     }
 

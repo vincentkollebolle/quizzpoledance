@@ -2,17 +2,11 @@
     <div class="col-6">
         {{ form_start(formquestion) }}
             {{ form_widget(formquestion) }}
-            {% for answer in formquestion.answers %}
-                {{ form_row(answer.content) }}
-            {% endfor %}
+           
             <button class="btn">{{ button_label|default('Save') }}</button>
         {{ form_end(formquestion) }}
     </div>
     <div class="col-6">
-        <h2>Ajouter une réponse </h2>
-        {{ form_start(formanswer) }}
-            {{ form_widget(formanswer) }}
-            <button class="btn">{{ button_label|default('Save') }}</button>
-        {{ form_end(formanswer) }}
+        
     </div>
 </div>

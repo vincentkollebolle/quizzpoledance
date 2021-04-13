@@ -25,19 +25,11 @@ class Answer
      */
     private $content;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $correct;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Question::class, mappedBy="answers")
-     */
-    private $questions;
+
 
     public function __construct()
     {
-        $this->questions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -58,46 +50,9 @@ class Answer
         return $this;
     }
 
-    public function getCorrect(): ?bool
-    {
-        return $this->correct;
-    }
-
-    public function setCorrect(bool $correct): self
-    {
-        $this->correct = $correct;
-
-        return $this;
-    }
 
     public function __toString() {
         return $this->content;
     }
 
-    /**
-     * @return Collection|Question[]
-     */
-    public function getQuestions(): Collection
-    {
-        return $this->questions;
-    }
-
-    public function addQuestion(Question $question): self
-    {
-        if (!$this->questions->contains($question)) {
-            $this->questions[] = $question;
-            $question->addAnswer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuestion(Question $question): self
-    {
-        if ($this->questions->removeElement($question)) {
-            $question->removeAnswer($this);
-        }
-
-        return $this;
-    }
 }

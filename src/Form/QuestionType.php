@@ -8,7 +8,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class QuestionType extends AbstractType
 {
@@ -18,22 +17,17 @@ class QuestionType extends AbstractType
             ->add('title')
             ->add('content')
             ->add('mediaurl')
-            ->add('answers', CollectionType::class, [
-                'entry_type' => AnswerType::class,
-                'entry_options' => ['label' => false],
-            ]);
-    
-            /*->add('answers', EntityType::class, [
-                // looks for choices from this entity
+            ->add('goodanswer', EntityType::class, [
                 'class' => Answer::class,
-            
-                // uses the User.username property as the visible option string
                 'choice_label' => 'content',
-            
-                // used to render a select box, check boxes or radios
+            ])
+            ->add('answers', EntityType::class, [
+                'class' => Answer::class,
+                'choice_label' => 'content',
                 'multiple' => true,
                 'expanded' => true,
-            ]);*/
+            ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

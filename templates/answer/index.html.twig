@@ -10,7 +10,6 @@
             <tr>
                 <th>Id</th>
                 <th>Content</th>
-                <th>Correct</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -19,7 +18,6 @@
             <tr>
                 <td>{{ answer.id }}</td>
                 <td>{{ answer.content }}</td>
-                <td>{{ answer.correct ? 'Yes' : 'No' }}</td>
                 <td>
                     <a href="{{ path('answer_show', {'id': answer.id}) }}">show</a>
                     <a href="{{ path('answer_edit', {'id': answer.id}) }}">edit</a>

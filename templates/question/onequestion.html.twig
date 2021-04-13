@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Exemple de question{% endblock %}
+
+{% block body %}
+    <img src="{{question.mediaurl}}" alt="photo de la figure" />
+    <h2>{{question.content}} </h2>
+    
+    {{ dump(question) }}
+{% endblock %}

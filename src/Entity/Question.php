@@ -41,9 +41,16 @@ class Question
     private $title;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Answer::class, inversedBy="questions")
+     * @ORM\ManyToMany(targetEntity=Answer::class)
      */
     private $answers;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Answer::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $goodanswer;
+
 
     public function __construct()
     {
@@ -116,6 +123,18 @@ class Question
     public function removeAnswer(Answer $answer): self
     {
         $this->answers->removeElement($answer);
+
+        return $this;
+    }
+
+    public function getGoodanswer(): ?Answer
+    {
+        return $this->goodanswer;
+    }
+
+    public function setGoodanswer(?Answer $goodanswer): self
+    {
+        $this->goodanswer = $goodanswer;
 
         return $this;
     }
