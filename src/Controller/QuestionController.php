@@ -7,6 +7,7 @@ use App\Entity\Answer;
 use App\Form\QuestionType;
 use App\Form\AnswerType;
 use App\Repository\QuestionRepository;
+use App\Repository\AnswerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -65,12 +66,49 @@ class QuestionController extends AbstractController
         ]);
     }
 
+    
+     /**
+     * @Route("/validate_answer", name="validate_answer", methods={"POST"})
+     */
+    public function validate(
+        Request $request,
+        QuestionRepository $questionRepository,
+        AnswerRepository $answerRepository): Response
+    {
+        //get Question
+        $postId = $request->request->get('questionid');
+        $question = $questionRepository->find($postId);
+
+        //get Answer
+        $answerId = $request->request->get('answerId');
+        $playeranswer = $answerRepository->find($answerId);
+
+        //on compare playerAnswer et goodanswer
+        if($question->getGoodanswer() === $playeranswer) {
+            $resultat = 'BRAVO';
+            //mise à jour entité quizz (qui li a un player)
+            //mettre à jour le score .... 
+            //rediriger vers la question suivante
+        } else {
+            $resultat = 'FAUX !';
+            //mise à jour entité quizz (qui li a un player)
+            //mettre à jour le score .... 
+            //rediriger vers la question suivante
+        }
+        
+        return $this->render(
+            'question/validate.html.twig',
+            ['resultat' => $resultat]
+        );
+    }
+
     /**
      * @Route("/onequestion", name="question_test", methods={"GET"})
      */
     public function onequestion(QuestionRepository $questionRepository): Response
     {
         $question = $questionRepository->find(1);
+
         return $this->render(
             'question/onequestion.html.twig',
             ['question' => $question]);
