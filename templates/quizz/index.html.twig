@@ -13,18 +13,17 @@
     <h1 style="color:white;">Bientôt un super quizz sur la pole dance !  </h1>
     <h2 class="mb-4">Testez votre connaissance des figures</h2>
     <div class="text-white">
-        Déjà <span class="badge bg-warning text-dark">{{players|length}}</span> personnes attendent le Quizz et vous ? 
+        Déjà <span class="badge bg-warning text-dark">{{players|length}}</span> personnes attendent le Quizz et vous ? <br />
+        Donnez votre e-mail et soyez informé.e lors de la sortie du quizz !
     </div>
     {{ form_start(form) }}
 
-        <div class="my-2">
-           {{ form_widget(form.email) }}
-           <small>{{ form_help(form.email) }}</small>
-           <div class="form-error">
-            {{ form_errors(form.email) }}
-            </div>
-        </div>
-      
+                <div class="my-2">
+                {{ form_widget(form.email, {'attr': {'placeholder': 'xxx@xxxx.xx', "width":"80%"}}) }}
+                <div class="form-error">
+                    {{ form_errors(form.email) }}
+                    </div>
+                </div>
         
         
         {{ form_widget(form.save, {'attr': {'value': 'Prevenez-moi !', 'class':'my-4 btn btn-warning'}}) }}
