@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\FileUploader;
 
 /**
  * @Route("/question")
@@ -33,7 +34,7 @@ class QuestionController extends AbstractController
     /**
      * @Route("/new", name="question_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, FileUploader $file_uploader): Response
     {
         $question = new Question();
         $answer = new Answer();
@@ -43,8 +44,27 @@ class QuestionController extends AbstractController
 
         if ($formQuestion->isSubmitted() && $formQuestion->isValid()) {
             $question = $formQuestion->getData();
+            
+            $file = $formQuestion['upload_file']->getData();
+            $question->setMediaurl($file);
+            if ($file) 
+            {
+                $file_name = $file_uploader->upload($file);
+                if (null !== $file_name) // for example
+                {
+                $directory = $file_uploader->getTargetDirectory();
+                $full_path = $directory.'/'.$file_name;
+                // Do what you want with the full path file...
+                // Why not read the content or parse it !!!
+                }
+                else
+                {
+                // Oups, an error occured !!!
+                }
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($question);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('question_index');
