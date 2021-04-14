@@ -22,8 +22,6 @@
           <a class="rounded-lg" href="{{path('quizz')}}">Take the quizz</a>
         </div>
         <div class="flex align-center">
-              {# {{ include('registration/register.html.twig') }} #}
-
           <a class="rounded-lg" href="{{path('app_register')}}">S'enregistrer</a>
           <a class="rounded-lg" href="{{path('app_login')}}">Se connecter</a>
 
@@ -34,6 +32,7 @@
               {% if is_granted('ROLE_ADMIN') %}
                 <a class="rounded-lg" href="{{path('answer_index')}}">Answer Index</a>
                 <a class="rounded-lg" href="{{path('question_index')}}">Question Index</a>
+                <a class="rounded-lg" href="{{path('quizz_history')}}">Quizz History</a>
               {% endif %}
               <a href="{{ path('app_logout') }}">Déconnexion</a>
             </div>
