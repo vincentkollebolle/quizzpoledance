@@ -68,21 +68,6 @@ class QuestionController extends AbstractController
         ]);
     }
 
-    
-    
-
-    /**
-     * @Route("/onequestion", name="question_test", methods={"GET"})
-     */
-    public function onequestion(QuestionRepository $questionRepository): Response
-    {
-        $question = $questionRepository->find(1);
-
-        return $this->render(
-            'question/onequestion.html.twig',
-            ['question' => $question]);
-    }
-
 
     /**
      * @Route("/{id}/edit", name="question_edit", methods={"GET","POST"})
