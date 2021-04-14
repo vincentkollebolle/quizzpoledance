@@ -22,13 +22,28 @@
           <a class="rounded-lg" href="{{path('quizz')}}">Take the quizz</a>
         </div>
         <div class="flex align-center">
-          <a class="rounded-lg" href="{{path('answer_index')}}">Answer Index</a>
-          <a class="rounded-lg" href="{{path('question_index')}}">Question Index</a>
+              {# {{ include('registration/register.html.twig') }} #}
+
+          <a class="rounded-lg" href="{{path('app_register')}}">S'enregistrer</a>
+          <a class="rounded-lg" href="{{path('app_login')}}">Se connecter</a>
+
+          {% if app.user %}
+            <div class="mb-3">
+              Vous êtes connecté en tant que
+              {{ app.user.username }},
+              {% if is_granted('ROLE_ADMIN') %}
+                <a class="rounded-lg" href="{{path('answer_index')}}">Answer Index</a>
+                <a class="rounded-lg" href="{{path('question_index')}}">Question Index</a>
+              {% endif %}
+              <a href="{{ path('app_logout') }}">Déconnexion</a>
+            </div>
+          {% endif %}
         </div>
       </nav>
 
         <div class="w-full">
-            {% block body %}{% endblock %}
+            {% block body %}
+            {% endblock %}
         </div>
 
         {% block footer %}{{ include('layouts/footer.html.twig') }}{% endblock %}
