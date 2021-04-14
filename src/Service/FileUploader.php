@@ -15,6 +15,7 @@ class FileUploader
         $this->targetDirectory = $targetDirectory;
         $this->slugger = $slugger;
     }
+    
     public function upload(UploadedFile $file)
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);

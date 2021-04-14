@@ -62,6 +62,7 @@ class QuestionController extends AbstractController
                 // Oups, an error occured !!!
                 }
             }
+            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($question);
 
