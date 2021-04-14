@@ -162,6 +162,7 @@ table.edit-table tr th,
 table.edit-table tr td{
 text-align: center;
 }
+table.edit-table tr th:last-child,
 table.edit-table tr td:last-child{
     width: 150px;
 }
