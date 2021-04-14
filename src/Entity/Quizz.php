@@ -36,6 +36,11 @@ class Quizz
      */
     private $playeranswers;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $date;
+
     public function __construct()
     {
         $this->playeranswers = new ArrayCollection();
@@ -96,6 +101,18 @@ class Quizz
                 $playeranswer->setQuizz(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(?\DateTimeInterface $date): self
+    {
+        $this->date = $date;
 
         return $this;
     }

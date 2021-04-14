@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Repository\QuestionRepository;
 use App\Repository\AnswerRepository;
+use DateTime;
 
 class QuizzController extends AbstractController
 {
@@ -82,6 +83,7 @@ class QuizzController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $quizz = $form->getData();
+            $quizz->setDate(new DateTime('now'));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($quizz);
             $entityManager->flush();
