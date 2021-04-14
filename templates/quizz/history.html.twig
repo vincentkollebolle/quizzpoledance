@@ -30,7 +30,7 @@
                 <td>{{ quizz.id }}</td>
                 <td>{{ quizz.playername}} </td>
                 <td>{{quizz.score}} / {{quizz.playeranswers|length }}</td>
-                <td>---</td>
+                <td>{% if quizz.date is not null %} {{ quizz.date|date("d/m/Y") }} {% else %} --- {% endif %}</td>
             </tr>
         {% else %}
             <tr>

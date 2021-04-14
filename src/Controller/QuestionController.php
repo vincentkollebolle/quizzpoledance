@@ -10,11 +10,13 @@ use App\Form\QuestionType;
 use App\Form\AnswerType;
 use App\Repository\QuestionRepository;
 use App\Repository\AnswerRepository;
+use App\Repository\PlayeranswerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\FileUploader;
+
 
 /**
  * @Route("/question")
@@ -123,10 +125,16 @@ class QuestionController extends AbstractController
     /**
      * @Route("/{id}", name="question_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Question $question): Response
+    public function delete(Request $request, Question $question, PlayeranswerRepository $playeranswerRepository, $id): Response
     {
+
+        $playerAnswers =  $playeranswerRepository->findBy(['question' => $id]);
+
         if ($this->isCsrfTokenValid('delete'.$question->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            foreach($playerAnswers as $playerAnswer){
+                $entityManager->remove($playerAnswer);
+            }
             $entityManager->remove($question);
             $entityManager->flush();
         }
