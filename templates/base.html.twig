@@ -6,23 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style>
-    html {
-    height: 100%;
-    }
-    body {
-    height: 100%;
-    margin: 0;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-
-      background: rgb(52,211,153);
-      background: linear-gradient(0deg, rgba(52,211,153,1) 0%, rgba(59,130,246,1) 100%);
-    }
-    </style>
     <link rel="stylesheet" href="{{ asset('assets/css/tailwind.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
     {% block stylesheets %}
 
     {% endblock %}
@@ -35,16 +21,22 @@
           <a class="text-xl rounded-lg" href="{{path('home')}}">Pole Dance Quizz</a>
           <a class="rounded-lg" href="{{path('quizz')}}">Take the quizz</a>
         </div>
+        <div class="flex align-center">
+          <a class="rounded-lg" href="{{path('answer_index')}}">Answer Index</a>
+          <a class="rounded-lg" href="{{path('question_index')}}">Question Index</a>
+        </div>
       </nav>
 
         <div class="w-full">
             {% block body %}{% endblock %}
         </div>
 
-      {% block footer %}{{ include('layouts/footer.html.twig') }}{% endblock %}
+        {% block footer %}{{ include('layouts/footer.html.twig') }}{% endblock %}
     </div>
 
     <script src="{{ asset('assets/js/app.js') }}"></script>
-    {% block javascripts %}{% endblock %}
+    {% block javascripts %}
+
+    {% endblock %}
   </body>
 </html>
