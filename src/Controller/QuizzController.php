@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Repository\QuestionRepository;
 use App\Repository\AnswerRepository;
+use DateTime;
 
 class QuizzController extends AbstractController
 {
@@ -82,6 +83,7 @@ class QuizzController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $quizz = $form->getData();
+            $quizz->setDate(new DateTime('now'));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($quizz);
             $entityManager->flush();
@@ -120,6 +122,8 @@ class QuizzController extends AbstractController
         //on compare playerAnswer et goodanswer
         if($questionFromForm->getGoodanswer() === $playeranswerFromForm) {
             $playeranswer->setStatus("yes");
+            // Enregistrer le score
+            $quizz->setScore($quizz->getScore()+1);
             //usage du flashbag ;) 
             $this->addFlash(
                 'success',
@@ -145,23 +149,43 @@ class QuizzController extends AbstractController
     /**
      * @Route("/quizz/history", name="quizz_history")
      */
-    public function history(): Response
+    public function history(Request $request): Response
     {
+        $form = $this->createFormBuilder()
+            ->add('playername', TextType::class)
+            ->add('submit', SubmitType::class, ['label' => 'Chercher Player'])
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->redirectToRoute('quizz_userhistory',['playername' => $form['playername']->getData()]);
+        }
         $quizzRepository = $this->getDoctrine()->getRepository(Quizz::class);
         return $this->render('quizz/history.html.twig', [
-            'quizzs' => $quizzRepository->findAll()
+            'quizzs' => $quizzRepository->findAll(),
+            'form' => $form->createView(),
         ]);
     }
     // ISSUE #18: Historique des Quizzs passés par utilisateur
     /**
      * @Route("/quizz/history/{playername}", name="quizz_userhistory")
      */
-    public function userHistory(string $playername): Response
+    public function userHistory(string $playername, Request $request): Response
     {
+        $form = $this->createFormBuilder()
+            ->add('playername', TextType::class)
+            ->add('submit', SubmitType::class, ['label' => 'Chercher Player'])
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->redirectToRoute('quizz_userhistory',['playername' => $form['playername']->getData()]);
+        }
         $quizzRepository = $this->getDoctrine()->getRepository(Quizz::class);
         return $this->render('quizz/history.html.twig', [
             'quizzs' => $quizzRepository->findBy(['playername' => $playername]),
-            'playername' => $playername
+            'playername' => $playername,
+            'form' => $form->createView(),
         ]);
     }
     /**

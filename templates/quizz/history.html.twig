@@ -5,6 +5,15 @@
 {% block body %}
 <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
     <h1 class="my-2">Quizz history {% if playername is defined %}of {{ playername }}{% endif %}</h1>
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+    <div class="md-input mb-5" style="width: 32em;">
+        {{ form_label(form.playername, 'Playername')}}
+        {{ form_widget(form.playername, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    {{ form_label(form.submit, 'Chercher Player History') }}
+    {{ form_widget(form.submit, {'attr': {'class': 'md-btn'}}) }}
+    {{ form_end(form) }}
 
     <table class="edit-table w-full mb-6">
         <thead>
@@ -21,11 +30,11 @@
                 <td>{{ quizz.id }}</td>
                 <td>{{ quizz.playername}} </td>
                 <td>{{quizz.score}} / {{quizz.playeranswers|length }}</td>
-                <td>---</td>
+                <td>{% if quizz.date is not null %} {{ quizz.date|date("d/m/Y") }} {% else %} --- {% endif %}</td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="2">no records found</td>
+                <td colspan="4">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
