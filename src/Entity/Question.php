@@ -20,17 +20,11 @@ class Question
      */
     private $id;
 
-
-
-
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Url(message="{{ value }} n'est pas une url valide")
      */
     private $mediaurl;
-
-
-
 
     /**
      * @ORM\Column(type="text")
@@ -56,12 +50,10 @@ class Question
      */
     private $goodanswer;
 
-
     public function __construct()
     {
         $this->answers = new ArrayCollection();
     }
-
   
     public function getId(): ?int
     {

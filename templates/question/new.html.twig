@@ -3,9 +3,11 @@
 {% block title %}New Question{% endblock %}
 
 {% block body %}
+<div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
     <h1>Create new Question</h1>
 
     {{ include('question/_form.html.twig') }}
 
-    <a href="{{ path('question_index') }}">back to list</a>
+    <a class="md-btn" href="{{ path('question_index') }}">back to list</a>
+</div>
 {% endblock %}

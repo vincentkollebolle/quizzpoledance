@@ -20,15 +20,11 @@ class Answer
      */
     private $id;
 
-
     /**
      * @Assert\NotBlank(message="Ce champ doit être renseigné.")
      * @ORM\Column(type="text")
      */
     private $content;
-
-
-
 
     public function __construct()
     {

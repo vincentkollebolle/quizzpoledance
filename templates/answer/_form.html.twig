@@ -1,4 +1,9 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="w-full flex flex-col items-center my-5">
+    <div class="md-input mb-5">
+        {{ form_widget(form.content) }}
+        {{ form_label(form.content) }}
+    </div>
+    <button class="md-btn">{{ button_label|default('Save') }}</button>
+</div>
 {{ form_end(form) }}

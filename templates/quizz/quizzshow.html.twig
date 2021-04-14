@@ -2,77 +2,59 @@
 
 {% block title %}Quizz Pole Dance{% endblock %}
 
-{% block stylesheets %}
-<style>
-    .dot {
-        border:20px;
-        width:20px;
-        height:20px;
-        border-radius:20px;
-        margin:5px;
-        display:inline-block;
-    }
-    .dotRight {
-        background:green; 
-    }   
-    .dotWrong {
-        background:red; 
-    }
-</style>
-{% endblock %}
    
 {% block body %}
 
-<div class="row">
-    <div class="col-12">
-       <div class="alert alert-light" role="alert">
-       <h2> {{quizz.playername | upper}} </h2>
-        <h2>Question  {{quizz.playeranswers|length }}/{{questions|length}} </h2>
-        {% for playeranswer in quizz.playeranswers %}
-            <div class="dot {% if playeranswer.status == "yes" %} dotRight {% else %} dotWrong {% endif %}"></div>
-        {% endfor %}
+<div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
+    <h2 class="text-xl font-bold"> {{quizz.playername | upper}} </h2>
+    <h2>Question  {{quizz.playeranswers|length }}/{{questions|length}} </h2>
+    {% set total = 0 %}
+    {% for playeranswer in quizz.playeranswers %}
+        <div> votre réponse {{ loop.index }} était:
+            {% if playeranswer.status == "yes" %}
+                {% set total = total + 1 %}
+                <span class="text-green-400">juste</span>
+            {% else %}
+                <span class="text-red-300">fausse</span>
+            {% endif %}
         </div>
-    </div>
+    {% endfor %}
 </div>
-<div class="row">
-    <div class="col-12">
+<div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent mt-5 p-5 text-white">
+    <div class="my-5 hidden">
         {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
+            <div class="text-green-400">
                 {{ message }}
             </div>
         {% endfor %}
         {% for message in app.flashes('error') %}
-            <div class="alert alert-danger">
+            <div class="text-red-300">
                 {{ message }}
             </div>
         {% endfor %}
     </div>
-</div>
-<div class="row">
-    <div class="col-4">
-       {% for question in questions2ask %}
-                <div class="card mb-4">
-                    <form method="post" action="{{ path("validate_answer", { 'id': quizz.id }) }}">
-                        <img class="card-img-top" src="{{question.mediaurl}}" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title">{{question.content}}</h5>
-                            <p class="card-text">
-                                {# TODO: passer par symfony de ce form #}
-                                <input type="hidden" name="questionid" value="{{question.id}}" />        
-                                {% for answer in question.answers %}
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="answerId" id="answer{{question.id}}{{answer.id}}" value="{{answer.id}}">
-                                        <label class="form-check-label" for="answer{{question.id}}{{answer.id}}">
-                                            {{answer.content}}
-                                        </label>
-                                    </div>
-                                {% endfor %}
-                            </p>
+    {% if(questions2ask|length > 0) %}
+       {% set question = questions2ask[0] %}
+        <form method="post" action="{{ path("validate_answer", { 'id': quizz.id }) }}">
+            <div class="w-full flex flex-col items-center mt-5">
+            <img class="rounded-lg mb-5" width="300" src="{{question.mediaurl}}" alt="Card image cap">
+                <h5 class="text-lg mb-3">{{question.content}}</h5>
+                <input type="hidden" name="questionid" value="{{question.id}}" />
+                <div class="mb-6">
+                    {% for answer in question.answers %}
+                        <div>
+                            <input class="md-radio" type="radio" name="answerId" id="answer{{question.id}}{{answer.id}}" value="{{answer.id}}">
+                            <label for="answer{{question.id}}{{answer.id}}">
+                                {{answer.content}}
+                            </label>
                         </div>
-                        <input type="submit" value="suivante" class="btn btn-primary" />
-                    </form>
+                    {% endfor %}
                 </div>
-        {% endfor %}    
-    </div>
+                <button type="submit" class="md-btn">Suivant</button>
+            </div>
+        </form>
+    {% else %}
+        Résultat: {{ total }}/{{questions|length}}
+    {% endif %}
 </div>
 {% endblock %}

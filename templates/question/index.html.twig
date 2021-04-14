@@ -3,9 +3,10 @@
 {% block title %}Question index{% endblock %}
 
 {% block body %}
+<div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
     <h1 class="my-2">Question index</h1>
 
-    <table class="table">
+    <table class="edit-table w-full mb-6">
         <thead>
             <tr>
                 <th>Question</th>
@@ -22,24 +23,25 @@
                 <td>{{ question.content}} </td>
                 <td>
                     {% for answer in question.answers %}
-                       <span class="badge badge-pill  p-2">{{ answer.content }}</span> 
+                       <span class="inline-block badge badge-pill py-0 px-2 border rounded-full m-0.5">{{ answer.content }}</span>
                     {% endfor %}
                 </td>
                 <td>
                     {{question.goodanswer.content}}
                 </td>
                 <td>                    
-                    <a class="btn btn-outline-primary" href="{{ path('question_show', {'id': question.id}) }}">show</a>
-                    <a class="btn btn-outline-primary" href="{{ path('question_edit', {'id': question.id}) }}">edit</a>
+                    <a class="md-btn" href="{{ path('question_show', {'id': question.id}) }}">show</a>
+                    <a class="md-btn" href="{{ path('question_edit', {'id': question.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="2">no records found</td>
+                <td colspan="5">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('question_new') }}">Create new</a>
+    <a class="md-btn" href="{{ path('question_new') }}">Create new</a>
+</div>
 {% endblock %}
