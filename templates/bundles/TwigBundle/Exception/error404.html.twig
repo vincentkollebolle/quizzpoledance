@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+ <style>
+    h1{
+        text-align: center;
+    }
+</style>
+{% block body %}
+    <div id="custom-404">
+
+        <h1>
+           Oups Cette page n'existe pas 
+        </h1>
+
+        <div class="d-flex justify-content-center ">
+            <p style="font-size:100px">&#128527; &#128528; &#128529;</p>
+        </div>
+        <button><a href="{{path('quizz')}}">retour à l'accueil</a></button>
+    </div>
+
+{% endblock %}
