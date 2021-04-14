@@ -3,8 +3,15 @@
 {% block title %}Quizz Pole Dance{% endblock %}
 
 {% block body %}
-
-<div class="row">
-    {{ form(form) }} 
-</div>
+    <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
+        {{ form_start(form) }}
+            <div class="w-full flex flex-col items-center mt-5">
+            <div class="md-input mb-5">
+                {{ form_widget(form.playername) }}
+                {{ form_label(form.playername) }}
+            </div>
+            {{ form_widget(form.start, {'attr': {'class':'md-btn'}}) }}
+            </div>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

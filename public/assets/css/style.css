@@ -1,0 +1,182 @@
+body {
+    background: linear-gradient(0deg, rgba(52, 211, 153, 1) 0%, rgba(59, 130, 246, 1) 100%) fixed;
+    margin: 0;
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
+body nav{
+    background: rgba(0,0,0,.3);
+}
+body nav a{
+    margin-left: 10px;
+    transition: .3s;
+    padding: 2px 10px;
+    vertical-align: bottom;
+    display: flex;
+    align-items: center;
+}
+body nav a:first-child{
+    margin-left: 0;
+}
+body nav a:hover{
+    background: rgba(0,0,0,.3);
+}
+.bg-darkTransparent{
+    background: rgba(0,0,0,.3);
+}
+input, button{
+    border: none;
+    border-radius: 2px;
+    outline: none;
+}
+div.md-input{
+    position: relative;
+    width: 100%;
+    margin: 20px 0;
+}
+div.md-input select,
+div.md-input textarea,
+div.md-input input{
+    border-bottom: 1px solid white;
+    border-radius: unset;
+    padding: 4px;
+    background: transparent;
+    color: #EEE;
+    transition: .3s;
+    width: 100%;
+}
+div.md-input select ~ label,
+div.md-input textarea ~ label,
+div.md-input input ~ label{
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 3px;
+    background: transparent;
+    color: white;
+    transform: translateY(4px) scale(1) translateX(0);
+    transition: .3s;
+    cursor: text;
+}
+div.md-input select option{
+    color: black;
+}
+div.md-input select:focus,
+div.md-input textarea:focus,
+div.md-input input:focus{
+    border-bottom-width: 2px;
+}
+div.md-input select:focus,div.md-input select.active,
+div.md-input textarea:focus,div.md-input textarea.active,
+div.md-input input:focus,div.md-input input.active{
+    outline: none;
+}
+div.md-input select ~ label,div.md-input select ~ label,
+div.md-input textarea:focus ~ label,div.md-input textarea.active ~ label,
+div.md-input input:focus ~ label,div.md-input input.active ~ label{
+    transform: translateY(-60%) scale(.8) translateX(-10%);
+}
+button.md-btn,
+a.md-btn{
+    position: relative;
+    border: 1px solid white;
+    padding: 4px 12px;
+    background: transparent;
+    color: white;
+    border-radius: 99px;
+    transition: .3s;
+    margin: 0 20px;
+}
+button.md-btn:after,
+a.md-btn:after{
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid white;
+    background: transparent;
+    border-radius: 99px;
+    display: block;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    transition: .3s;
+}
+button.md-btn:hover,
+a.md-btn:hover{
+    outline: none;
+    box-shadow: inset 0 0 0 1px white;
+}
+button.md-btn:focus:after,
+a.md-btn:focus:after{
+    width: calc(100% + 8px);
+    height: calc(100% + 8px);
+    border-style: dotted;
+}
+button.md-btn:hover:after,
+a.md-btn:hover:after{
+    width: calc(100% + 8px);
+    height: calc(100% + 8px);
+    border-style: solid;
+}
+button.md-btn:active:after,
+a.md-btn:active:after{
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    transition: .1s;
+}
+button.md-btn:focus,
+a.md-btn:focus{
+    outline: none;
+}
+input[type=radio].md-radio{
+    display: none;
+}
+input[type=radio].md-radio ~ label{
+    padding-left: 35px;
+    position: relative;
+    cursor: pointer;
+}
+input[type=radio].md-radio ~ label:before{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 2px solid white;
+    transform: translateY(-50%);
+    transition: .3s;
+}
+input[type=radio].md-radio:checked ~ label:before{
+    content: "";
+    background-color: white;
+}
+
+table.edit-table tr th,
+table.edit-table tr td{
+text-align: center;
+}
+table.edit-table tr td:last-child{
+    width: 150px;
+}
+table.edit-table tr td:last-child a{
+    margin: 0 0 0 10px;
+}
+table.edit-table tr td:last-child a:first-child{
+    margin: 0;
+}
+table.edit-table tr th{
+    font-size: 18px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid white
+}
+table.edit-table tr td{
+    border-bottom: 1px solid grey;
+    padding: 8px 0;
+}

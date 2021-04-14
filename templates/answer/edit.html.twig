@@ -3,11 +3,13 @@
 {% block title %}Edit Answer{% endblock %}
 
 {% block body %}
-    <h1>Edit Answer</h1>
+<div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
+    <h1 class="mb-6">Edit Answer</h1>
 
     {{ include('answer/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('answer_index') }}">back to list</a>
+    <a class="md-btn" href="{{ path('answer_index') }}">back to list</a>
 
     {{ include('answer/_delete_form.html.twig') }}
+</div>
 {% endblock %}
