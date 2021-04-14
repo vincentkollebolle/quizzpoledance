@@ -7,8 +7,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Player; 
+use App\Entity\Quizz; 
+use App\Entity\Question; 
+use App\Entity\Playeranswer;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\Repository\QuestionRepository;
+use App\Repository\AnswerRepository;
 
 class QuizzController extends AbstractController
 {
@@ -57,5 +63,118 @@ class QuizzController extends AbstractController
             'form' => $form->createView(),
             'players' => $players
         ]);
+    }
+
+    /**
+     * @Route("/quizz", name="quizz")
+     */
+    public function quizz(Request $request)
+    {
+        //form start quizz
+        $quizz = new Quizz();
+        $quizz->setScore(0);
+
+        $form = $this->createFormBuilder($quizz)
+            ->add('playername', TextType::class)
+            ->add('start', SubmitType::class, ['label' => 'Démarrer le Quizz'])
+            ->getForm();
+        
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $quizz = $form->getData();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($quizz);
+            $entityManager->flush();
+    
+            return $this->redirectToRoute('quizz_show',array('id' => $quizz->getId()));
+        }
+        
+        return $this->render(
+            'quizz/quizz.html.twig', 
+            [ 
+                'form' => $form->createView()
+            ]);
+    }
+
+     /**
+     * @Route("/quizz/{id}/validate_answer", name="validate_answer", methods={"POST"})
+     */
+    public function validate(
+        Request $request,
+        QuestionRepository $questionRepository,
+        AnswerRepository $answerRepository,
+        Quizz $quizz): Response
+    {
+        //get Question
+        $postId = $request->request->get('questionid');
+        $questionFromForm = $questionRepository->find($postId);
+
+        //get Answer
+        $answerId = $request->request->get('answerId');
+        $playeranswerFromForm = $answerRepository->find($answerId);
+
+        $playeranswer = new Playeranswer(); 
+        $playeranswer->setQuizz($quizz);
+        $playeranswer->setQuestion($questionFromForm);
+
+        //on compare playerAnswer et goodanswer
+        if($questionFromForm->getGoodanswer() === $playeranswerFromForm) {
+            $playeranswer->setStatus("yes");
+            //usage du flashbag ;) 
+            $this->addFlash(
+                'success',
+                'Trop fort.e !'
+            );
+        } else {
+            $playeranswer->setStatus("no");
+            $this->addFlash(
+                'error',
+                "ha bah non c'est pas ça !"
+            );
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($playeranswer);
+        $entityManager->flush();
+        
+        //put message in the session; 
+
+        return $this->redirectToRoute('quizz_show',array('id' => $quizz->getId()));
+    }
+
+    /**
+     * @Route("/quizz/{id}", name="quizz_show")
+     */
+    public function showquizz(Request $request, Quizz $quizz)
+    {
+        //get unanswered questions
+        //toutes les questions qui ne sont pas dans l'history du player
+        $repository = $this->getDoctrine()->getRepository(Question::class);
+        $questions = $repository->findAll();
+        
+        $repository = $this->getDoctrine()->getRepository(Playeranswer::class);
+        $playeranswers = $repository->findByQuizz($quizz);
+        
+        //on construit un tableau d'id des question auxquelles il a déjà été répondu.
+        $arrayAnsweredQuestion = [];
+        foreach($playeranswers as $playeranswer ) {
+            $arrayAnsweredQuestion[] =  $playeranswer->getQuestion()->getId();        
+        }
+
+        //on construit un tableau des questions qu'il reste à poser
+        $arrayQuestion2ask = [];
+        foreach($questions as $question) {
+           
+            if(! in_array($question->getID(), $arrayAnsweredQuestion) ) {
+                $arrayQuestion2ask[] = $question;
+            }
+        }
+        return $this->render(
+            'quizz/quizzshow.html.twig', 
+            [ 
+                'quizz' => $quizz,
+                'questions' => $questions,
+                'questions2ask' => $arrayQuestion2ask
+            ]);
     }
 }

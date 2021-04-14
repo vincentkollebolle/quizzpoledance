@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Question;
 use App\Entity\Answer;
+use App\Entity\Quizz;
+use App\Entity\Playeranswer;
 use App\Form\QuestionType;
 use App\Form\AnswerType;
 use App\Repository\QuestionRepository;
@@ -67,40 +69,7 @@ class QuestionController extends AbstractController
     }
 
     
-     /**
-     * @Route("/validate_answer", name="validate_answer", methods={"POST"})
-     */
-    public function validate(
-        Request $request,
-        QuestionRepository $questionRepository,
-        AnswerRepository $answerRepository): Response
-    {
-        //get Question
-        $postId = $request->request->get('questionid');
-        $question = $questionRepository->find($postId);
-
-        //get Answer
-        $answerId = $request->request->get('answerId');
-        $playeranswer = $answerRepository->find($answerId);
-
-        //on compare playerAnswer et goodanswer
-        if($question->getGoodanswer() === $playeranswer) {
-            $resultat = 'BRAVO';
-            //mise à jour entité quizz (qui li a un player)
-            //mettre à jour le score .... 
-            //rediriger vers la question suivante
-        } else {
-            $resultat = 'FAUX !';
-            //mise à jour entité quizz (qui li a un player)
-            //mettre à jour le score .... 
-            //rediriger vers la question suivante
-        }
-        
-        return $this->render(
-            'question/validate.html.twig',
-            ['resultat' => $resultat]
-        );
-    }
+    
 
     /**
      * @Route("/onequestion", name="question_test", methods={"GET"})
