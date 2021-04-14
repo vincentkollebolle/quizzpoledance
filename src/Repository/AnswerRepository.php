@@ -36,15 +36,16 @@ class AnswerRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Answer
+    /**
+    * @return Answer[] Returns an array of Answer objects
+    */
+    public function findRandomAnswers($answerId)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('a.id != :id')
+            ->setParameter('id', $answerId)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
 }
