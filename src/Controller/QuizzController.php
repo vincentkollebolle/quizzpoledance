@@ -19,7 +19,7 @@ use App\Repository\AnswerRepository;
 class QuizzController extends AbstractController
 {
     /**
-     * @Route("/", name="quizz")
+     * @Route("/", name="home")
      */
     public function index(Request $request)
     {
