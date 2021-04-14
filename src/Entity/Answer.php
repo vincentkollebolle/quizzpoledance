@@ -19,14 +19,10 @@ class Answer
      */
     private $id;
 
-
     /**
      * @ORM\Column(type="text")
      */
     private $content;
-
-
-
 
     public function __construct()
     {
