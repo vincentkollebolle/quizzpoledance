@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PlayeranswerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PlayeranswerRepository::class)
@@ -24,12 +25,16 @@ class Playeranswer
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * TODO: Ajouter une contrainte pour ne pouvoir contenir que "yes" ou "no"
+     * @Assert\Choice(
+     *     choices="Yes", "No",
+     *     message="La valeur doit être 'Yes' ou 'No'."
+     * )
      */
     private $status;
 
     /**
      * @ORM\ManyToOne(targetEntity=Quizz::class, inversedBy="playeranswers")
+     * @Assert\NotBlank
      */
     private $quizz;
 
