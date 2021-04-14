@@ -141,7 +141,29 @@ class QuizzController extends AbstractController
 
         return $this->redirectToRoute('quizz_show',array('id' => $quizz->getId()));
     }
-
+   // ISSUE #18: Historique des Quizzs passés
+    /**
+     * @Route("/quizz/history", name="quizz_history")
+     */
+    public function history(): Response
+    {
+        $quizzRepository = $this->getDoctrine()->getRepository(Quizz::class);
+        return $this->render('quizz/history.html.twig', [
+            'quizzs' => $quizzRepository->findAll()
+        ]);
+    }
+    // ISSUE #18: Historique des Quizzs passés par utilisateur
+    /**
+     * @Route("/quizz/history/{playername}", name="quizz_userhistory")
+     */
+    public function userHistory(string $playername): Response
+    {
+        $quizzRepository = $this->getDoctrine()->getRepository(Quizz::class);
+        return $this->render('quizz/history.html.twig', [
+            'quizzs' => $quizzRepository->findBy(['playername' => $playername]),
+            'playername' => $playername
+        ]);
+    }
     /**
      * @Route("/quizz/{id}", name="quizz_show")
      */

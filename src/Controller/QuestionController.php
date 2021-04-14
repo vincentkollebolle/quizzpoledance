@@ -44,7 +44,10 @@ class QuestionController extends AbstractController
 
         if ($formQuestion->isSubmitted() && $formQuestion->isValid()) {
             $question = $formQuestion->getData();
-            
+             // ISSUE #1: Auto ajout de la bonne réponse
+             if(!($question->getAnswers()->contains($question->getGoodanswer()))){
+                $question->addAnswer($question->getGoodanswer());
+            }
             $file = $formQuestion['upload_file']->getData();
             $question->setMediaurl($file);
             if ($file) 
@@ -100,6 +103,10 @@ class QuestionController extends AbstractController
 
         if ($formquestion->isSubmitted() && $formquestion->isValid()) {
             $question = $formquestion->getData();
+             // ISSUE #1: Auto ajout de la bonne réponse
+             if(!($question->getAnswers()->contains($question->getGoodanswer()))){
+                $question->addAnswer($question->getGoodanswer());
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($question);
             $entityManager->flush();
