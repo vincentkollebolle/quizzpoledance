@@ -23,6 +23,7 @@
         <div class="flex align-center">
           <a class="text-xl rounded-lg" href="{{path('home')}}">Pole Dance Quizz</a>
           <a class="rounded-lg" href="{{path('quizz')}}">Take the quizz</a>
+          <a class="rounded-lg" href="{{path('quizz_history')}}">Quizz History</a>
         </div>
         <div class="flex align-center">
           {% if app.user %}
@@ -32,7 +33,6 @@
               {% if is_granted('ROLE_ADMIN') %}
                 <a class="rounded-lg" href="{{path('answer_index')}}">Answer Index</a>
                 <a class="rounded-lg" href="{{path('question_index')}}">Question Index</a>
-                <a class="rounded-lg" href="{{path('quizz_history')}}">Quizz History</a>
               {% endif %}
               <a href="{{ path('app_logout') }}">Déconnexion</a>
             </div>
