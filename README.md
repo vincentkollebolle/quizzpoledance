@@ -46,7 +46,9 @@ $> php bin/console make:migration
 $> php bin/console doctrine:migrations:migrate
 ```
 
-- [Optionnel] Charger un pack de question sur les figures de Pole Dance
+- Charger les fixutres du projet (pack de question sur les figures de Pole Dance + utilisateur admin.
+Login du compte administrateur par défaut: admin@admin.com
+Mot de passe par défaut : admin 
 ```
 $> php bin/console doctrine:fixtures:load
 ```

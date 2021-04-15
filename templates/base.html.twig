@@ -19,7 +19,10 @@
   </head>
   <body>
     <div class="container mx-auto">
-      <nav class="flex align-center justify-between my-5 p-3 text-white rounded-lg">
+      <div class="flex align-center justify-between mt-5 p-3 text-white rounded-lg">
+        {% if is_granted('ROLE_ADMIN') %} Vous êtes connecté en tant que {{ app.user.username }} {% endif %}
+      </div>
+      <nav class="flex align-center justify-between mb-5 p-3 text-white rounded-lg">
         <div class="flex align-center">
           <a class="text-xl rounded-lg" href="{{path('home')}}">Pole Dance Quizz</a>
           <a class="rounded-lg" href="{{path('quizz')}}">Take the quizz</a>
@@ -27,17 +30,12 @@
         </div>
         <div class="flex align-center">
           {% if app.user %}
-            <div class="mb-3">
-              Vous êtes connecté en tant que
-              {{ app.user.username }},
-              {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') %}
                 <a class="rounded-lg" href="{{path('answer_index')}}">Answer Index</a>
                 <a class="rounded-lg" href="{{path('question_index')}}">Question Index</a>
-              {% endif %}
-              <a href="{{ path('app_logout') }}">Déconnexion</a>
-            </div>
+            {% endif %}
+            <a href="{{ path('app_logout') }}">Déconnexion</a>
           {% else %}
-            <a class="rounded-lg" href="{{path('app_register')}}">S'enregistrer</a>
             <a class="rounded-lg" href="{{path('app_login')}}">Se connecter</a>
           {% endif %}
         </div>
