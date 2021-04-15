@@ -21,6 +21,7 @@
                 <th>ID</th>
                 <th>Playername</th>
                 <th>Score</th>
+                <th>Résultat</th>
                 <th>Date passage</th>
             </tr>
         </thead>
@@ -30,11 +31,21 @@
                 <td>{{ quizz.id }}</td>
                 <td>{{ quizz.playername}} </td>
                 <td>{{quizz.score}} / {{quizz.playeranswers|length }}</td>
+                <td>
+                    {% if quizz.score == quizz.playeranswers|length %}
+                        <span class="m-1 border rounded-full px-2 border-yellow-400 text-yellow-400">Perfect</span>
+                    {# Conditions de succès modulable #}
+                    {% elseif quizz.score >= ((quizz.playeranswers|length)/2) %}
+                        <span class="m-1 border rounded-full px-2 border-green-400 text-green-400">Success</span>
+                    {% else %}
+                        <span class="m-1 border rounded-full px-2 border-red-400 text-red-400">Failure</span>
+                    {% endif %}
+                </td>
                 <td>{% if quizz.date is not null %} {{ quizz.date|date("d/m/Y") }} {% else %} --- {% endif %}</td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="5">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
