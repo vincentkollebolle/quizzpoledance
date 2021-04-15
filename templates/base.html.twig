@@ -22,9 +22,6 @@
           <a class="rounded-lg" href="{{path('quizz')}}">Take the quizz</a>
         </div>
         <div class="flex align-center">
-          <a class="rounded-lg" href="{{path('app_register')}}">S'enregistrer</a>
-          <a class="rounded-lg" href="{{path('app_login')}}">Se connecter</a>
-
           {% if app.user %}
             <div class="mb-3">
               Vous êtes connecté en tant que
@@ -36,6 +33,9 @@
               {% endif %}
               <a href="{{ path('app_logout') }}">Déconnexion</a>
             </div>
+          {% else %}
+            <a class="rounded-lg" href="{{path('app_register')}}">S'enregistrer</a>
+            <a class="rounded-lg" href="{{path('app_login')}}">Se connecter</a>
           {% endif %}
         </div>
       </nav>

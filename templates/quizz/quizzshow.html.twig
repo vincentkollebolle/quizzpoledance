@@ -68,7 +68,15 @@
             </div>
         </form>
     {% else %}
-        Résultat: {{ total }}/{{questions|length}}
+        Votre score est de: {{ total }}/{{questions|length}}
+        {% if total == questions|length %}
+            <br>BRAVO! Vous avez obtenu un score parfait!
+        {# Conditions de succès modulable #}
+        {% elseif total >= ((questions|length)/2) %}
+            <br>Félicitations! Vous avez réussi le test!
+        {% else %}
+            <br>Dommage! Vous avez raté le test!
+        {% endif %}
     {% endif %}
 </div>
 {% endblock %}
