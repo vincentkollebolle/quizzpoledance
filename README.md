@@ -5,17 +5,49 @@ What is Quizz pole Dance ?
 ===
 You would have guess it, it is a pole dance application which allow you to create quizz ! 
 
+Pré-requis 
+===
+- Git 
+- Composer
+- MySQL (Disposer d'un compte utilisateur de base de donnée MySQL.)
+- PHP 7.4
+
+
 Comment installer le projet ? 
 ====
-- Git clone du proejt
-- Composer update
-- Configure .env.local file in order to match your local database
-- php bin/console doctrine:migration:migrate 
-- php bin/console doctrine:fixtures:load
+- Cloner le projet via Git 
+```
+$> git clone https://github.com/vincentkollebolle/quizzpoledance.git
+```
+- Se rendre dans le dossier du projet 
+```
+$> cd quizzpoledance/
+```
+- Installer les dépendances manquantes 
+```
+$> composer install
+```
+- Créer et configurer un fichier .env.local et renseigner vos inforamtions de connexion MySQL. 
+```
+# .env.local
+DATABASE_URL="mysql://yourLogin:yourPass@localhost:3306/yourBddName?serverVersion=13&charset=utf8"
+```
+- Créer la base de donnée
+```
+php bin/console doctrine:database:create
+```
 
-Compte administrator 
-====
-Pour configurer l'email de connexion pour pouvoir gérer questions et réponses.
-login : toto@toto.com 
-mdp: tototo
+-Créer les migrations 
+```
+$> php bin/console make:migration
+```
+-Exécuter les migrations
+```
+$> php bin/console doctrine:migrations:migrate
+```
+
+- [Optionnel] Charger un pack de question sur les figures de Pole Dance
+```
+$> php bin/console doctrine:fixtures:load
+```
 
