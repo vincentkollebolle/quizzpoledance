@@ -68,15 +68,21 @@
             </div>
         </form>
     {% else %}
-        Votre score est de: {{ total }}/{{questions|length}}
         {% if total == questions|length %}
-            <br>BRAVO! Vous avez obtenu un score parfait!
+            <i class="far fa-laugh-beam fa-3x" style="color: rgba(251, 191, 36, var(--tw-text-opacity));"></i>
+            <span style="color: rgba(251, 191, 36, var(--tw-text-opacity));">Votre score est de: {{ total }}/{{questions|length}}</span>
+            <span style="color: rgba(251, 191, 36, var(--tw-text-opacity)); padding-bottom: 10px;">BRAVO <b>{{ quizz.playername }}</b>! Vous avez obtenu un score parfait!</span>
         {# Conditions de succès modulable #}
         {% elseif total >= ((questions|length)/2) %}
-            <br>Félicitations! Vous avez réussi le test!
+            <i class="far fa-smile-beam fa-3x" style="color: rgba(52, 211, 153, var(--tw-text-opacity));"></i>
+            <span style="color: rgba(52, 211, 153, var(--tw-text-opacity));">Votre score est de: {{ total }}/{{questions|length}}</span>
+            <span style="color: rgba(52, 211, 153, var(--tw-text-opacity)); padding-bottom: 10px;">Félicitations <b>{{ quizz.playername }}</b>! Vous avez réussi le test!</span>
         {% else %}
-            <br>Dommage! Vous avez raté le test!
+            <i class="far fa-frown-open fa-3x" style="color: rgba(248, 113, 113, var(--tw-text-opacity));"></i>
+            <span style="color: rgba(248, 113, 113, var(--tw-text-opacity));">Votre score est de: {{ total }}/{{questions|length}}</span>
+            <span style="color: rgba(248, 113, 113, var(--tw-text-opacity)); padding-bottom: 10px;">Dommage <b>{{ quizz.playername }}</b>! Vous avez raté le test!</span>
         {% endif %}
+        <a class="md-btn" href="{{path('quizz_userhistory', {playername: quizz.playername})}}">User History</a>
     {% endif %}
 </div>
 {% endblock %}
