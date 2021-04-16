@@ -22,23 +22,34 @@
       <div class="flex align-center justify-between mt-5 p-3 text-white rounded-lg">
         {% if is_granted('ROLE_ADMIN') %} Vous êtes connecté en tant que {{ app.user.username }} {% endif %}
       </div>
-      <nav class="flex align-center justify-between mb-5 p-3 text-white rounded-lg">
-        <div class="flex align-center">
+      <nav class="flex flex-col lg:flex-row align-center justify-between mb-5 p-3 text-white rounded-lg">
+        <div class="head">
           <a class="text-xl rounded-lg" href="{{path('home')}}">Pole Dance Quizz</a>
-          <a class="rounded-lg" href="{{path('quizz')}}">Take the quizz</a>
-          <a class="rounded-lg" href="{{path('quizz_history')}}">Quizz History</a>
+          <div class="collapse-btn lg:hidden">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
         </div>
-        <div class="flex align-center">
-          {% if app.user %}
-            {% if is_granted('ROLE_ADMIN') %}
+
+        <div class="collapse flex flex-col lg:flex-row align-center justify-between flex-1">
+          <div class="flex flex-col lg:flex-row align-center">
+            <a class="rounded-lg" href="{{path('quizz')}}">Take the quizz</a>
+            <a class="rounded-lg" href="{{path('quizz_history')}}">Quizz History</a>
+          </div>
+          <div class="flex flex-col lg:flex-row align-center">
+            {% if app.user %}
+              {% if is_granted('ROLE_ADMIN') %}
                 <a class="rounded-lg" href="{{path('answer_index')}}">Answer Index</a>
                 <a class="rounded-lg" href="{{path('question_index')}}">Question Index</a>
+              {% endif %}
+              <a href="{{ path('app_logout') }}">Déconnexion</a>
+            {% else %}
+              <a class="rounded-lg" href="{{path('app_login')}}">Se connecter</a>
             {% endif %}
-            <a href="{{ path('app_logout') }}">Déconnexion</a>
-          {% else %}
-            <a class="rounded-lg" href="{{path('app_login')}}">Se connecter</a>
-          {% endif %}
+          </div>
         </div>
+
       </nav>
 
         <div class="w-full">

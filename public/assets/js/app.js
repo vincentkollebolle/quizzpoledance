@@ -12,3 +12,12 @@ document.querySelectorAll('div.md-input input,div.md-input textarea').forEach(fu
         v.classList.remove('active');
     }
 });
+document.querySelector('body nav div.collapse-btn').addEventListener('click',function(e){
+    if(e.currentTarget.classList.contains('active')){
+        e.currentTarget.classList.remove('active');
+        e.currentTarget.parentNode.nextSibling.nextSibling.classList.remove('show');
+    } else {
+        e.currentTarget.classList.add('active');
+        e.currentTarget.parentNode.nextSibling.nextSibling.classList.add('show');
+    }
+});

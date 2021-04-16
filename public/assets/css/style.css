@@ -19,10 +19,68 @@ body nav a{
     align-items: center;
 }
 body nav a:first-child{
-    margin-left: 0;
+     margin-left: 0;
+}
+@media only screen and (max-width: 1023px) {
+    body nav a:first-child:not(.text-xl){
+        margin-left: 20px;
+    }
+    body nav a{
+        margin-left: 20px;
+    }
 }
 body nav a:hover{
     background: rgba(0,0,0,.3);
+}
+body nav div.head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+body nav div.collapse-btn{
+    position: relative;
+    width: 20px;
+    height: 16px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+body nav div.collapse-btn div.bar{
+    position: absolute;
+    border-radius: 9px;
+    width: 20px;
+    height: 2px;
+    top:0;
+    background: white;
+    transition: .3s;
+    transform-origin: center;
+}
+body nav div.collapse-btn div.bar:nth-child(2){
+    top:50%;
+    transform: translateY(-50%);
+}
+body nav div.collapse-btn div.bar:nth-child(3){
+    top:unset;
+    bottom: 0;
+}
+body nav div.collapse-btn.active div.bar:nth-child(1){
+    top:50%;
+    transform: translateY(-50%) rotate(-45deg);
+}
+body nav div.collapse-btn.active div.bar:nth-child(2){
+    opacity: 0;
+}
+body nav div.collapse-btn.active div.bar:nth-child(3){
+    top:50%;
+    transform: translateY(-50%) rotate(45deg);
+    bottom: unset;
+}
+body nav div.collapse{
+    transition: .3s;
+    max-height: 0;
+    overflow: hidden;
+}
+body nav div.collapse.show{
+    max-height: 150px;
 }
 .bg-darkTransparent{
     background: rgba(0,0,0,.3);
