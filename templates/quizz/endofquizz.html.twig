@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Quizz Pole Dance{% endblock %}
+
+{% block body %}
+    <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
+    <img style="width:250px;" class="rounded-full my-3" src="{{ asset("img/logo.jpg")}}" alt="logo quizz pole dance" />
+    <div class="answer-msg-smiley" style="font-size:52px">
+            &#128513;
+    </div>
+     <h1 class="text-lg my-4">Bravo !</h1>
+      <p class="text-center">
+        Vous êtes arrivé au bout de ce quizz !
+      </p>
+      <h1 class="text-lg my-4">Votre score est de {{quizz.score}} points !</h1> 
+      <a href="{{ path("quizz_history") }}" style="color:blue;text-decoration:underline">Voir le classement </a>
+    
+    </div>
+{% endblock %}

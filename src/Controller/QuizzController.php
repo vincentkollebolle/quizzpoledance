@@ -255,13 +255,21 @@ class QuizzController extends AbstractController
         }
 
         //
-        return $this->redirectToRoute(
-            'quizz_question',
-            array(
-                'id' => $quizz->getId(),
-                'question_id' => $arrayQuestion2ask[0]->getId()
-            )
-        );
+        if(count($arrayQuestion2ask) > 0) {
+            return $this->redirectToRoute(
+                'quizz_question',
+                array(
+                    'id' => $quizz->getId(),
+                    'question_id' => $arrayQuestion2ask[0]->getId()
+                )
+            );
+        } else {
+            return $this->render(
+                'quizz/endofquizz.html.twig', 
+                [ 'quizz' => $quizz
+                ]);
+            
+        }
 
     }
 }
