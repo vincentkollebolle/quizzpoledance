@@ -35,7 +35,7 @@
     </div>
 </div>
 <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent mt-5 p-5 text-white">
-    <div class="my-5 hidden">
+    <div class="my-5">
         {% for message in app.flashes('success') %}
             <div class="text-green-400">
                 {{ message }}
@@ -49,24 +49,19 @@
     </div>
     {% if(questions2ask|length > 0) %}
        {% set question = questions2ask[0] %}
-        <form method="post" action="{{ path("validate_answer", { 'id': quizz.id }) }}">
-            <div class="w-full flex flex-col items-center mt-5">
+         <div class="w-full flex flex-col items-center mt-5">
             <img class="rounded-lg mb-5" width="300" src="{{question.mediaurl}}" alt="Card image cap">
                 <h5 class="text-lg mb-3">{{question.content}}</h5>
-                <input type="hidden" name="questionid" value="{{question.id}}" />
                 <div class="mb-6">
                     {% for answer in question.answers %}
-                        <div>
-                            <input class="md-radio" type="radio" name="answerId" id="answer{{question.id}}{{answer.id}}" value="{{answer.id}}">
-                            <label for="answer{{question.id}}{{answer.id}}">
-                                {{answer.content}}
-                            </label>
-                        </div>
+                        <a 
+                            href="{{ path('validate', {"quizz_id":quizz.id, "question_id":question.id, "answer_id":answer.id}) }}" 
+                            class=" block my-2 md-btn ">
+                            {{answer.content}}
+                        </a>
                     {% endfor %}
                 </div>
-                <button type="submit" class="md-btn">Suivant</button>
-            </div>
-        </form>
+        </div>
     {% else %}
         {% if total == questions|length %}
             <i class="far fa-laugh-beam fa-3x" style="color: rgba(251, 191, 36, var(--tw-text-opacity));"></i>

@@ -88,7 +88,6 @@ a.md-btn{
     color: white;
     border-radius: 99px;
     transition: .3s;
-    margin: 0 20px;
 }
 button.md-btn:after,
 a.md-btn:after{
