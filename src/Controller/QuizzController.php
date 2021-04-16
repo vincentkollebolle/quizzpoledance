@@ -9,13 +9,17 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Player; 
 use App\Entity\Quizz; 
 use App\Entity\Question; 
+use App\Entity\Answer; 
 use App\Entity\Playeranswer;
+
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 use App\Repository\QuestionRepository;
 use App\Repository\AnswerRepository;
 use DateTime;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 class QuizzController extends AbstractController
 {
@@ -98,29 +102,24 @@ class QuizzController extends AbstractController
             ]);
     }
 
-     /**
-     * @Route("/quizz/{id}/validate_answer", name="validate_answer", methods={"POST"})
+      /**
+     * @Route("/quizz/{quizz_id}/validate/{question_id}/{answer_id}", name="validate", methods={"GET"})
+     * @Entity("quizz", expr="repository.find(quizz_id)")
+     * @Entity("question", expr="repository.find(question_id)")
+     * @Entity("answer", expr="repository.find(answer_id)")
      */
     public function validate(
-        Request $request,
-        QuestionRepository $questionRepository,
-        AnswerRepository $answerRepository,
-        Quizz $quizz): Response
+        Quizz $quizz,
+        Question $question,
+        Answer $answer): Response
     {
-        //get Question
-        $postId = $request->request->get('questionid');
-        $questionFromForm = $questionRepository->find($postId);
-
-        //get Answer
-        $answerId = $request->request->get('answerId');
-        $playeranswerFromForm = $answerRepository->find($answerId);
-
+       
         $playeranswer = new Playeranswer(); 
         $playeranswer->setQuizz($quizz);
-        $playeranswer->setQuestion($questionFromForm);
+        $playeranswer->setQuestion($question);
 
         //on compare playerAnswer et goodanswer
-        if($questionFromForm->getGoodanswer() === $playeranswerFromForm) {
+        if($question->getGoodanswer() === $answer) {
             $playeranswer->setStatus("yes");
             // Enregistrer le score
             $quizz->setScore($quizz->getScore()+1);
@@ -145,6 +144,7 @@ class QuizzController extends AbstractController
 
         return $this->redirectToRoute('quizz_show',array('id' => $quizz->getId()));
     }
+
    // ISSUE #18: Historique des Quizzs passés
     /**
      * @Route("/quizz/history", name="quizz_history")
