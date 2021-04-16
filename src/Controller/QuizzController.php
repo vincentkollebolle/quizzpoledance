@@ -47,7 +47,7 @@ class QuizzController extends AbstractController
             $entityManager->persist($quizz);
             $entityManager->flush();
     
-            return $this->redirectToRoute('quizz_show',array('id' => $quizz->getId()));
+            return $this->redirectToRoute('quizz_nextquestion',array('id' => $quizz->getId()));
         }
         
         return $this->render(

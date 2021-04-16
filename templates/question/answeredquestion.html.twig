@@ -1,5 +1,5 @@
 
-<div class="w-full flex flex-col items-center mt-5" style="position:relative">
+<div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 mt-5 text-white relative">
     <img class="rounded-lg mb-5" width="300" src="{{playeranswer.question.mediaurl}}" alt="Card image cap">
     <div style="    position: absolute;
     background: white;
@@ -27,31 +27,20 @@
         {% endif %}
     </div>
     <h5 class="text-lg mb-3">{{playeranswer.question.content}}</h5>
-    <div class="mb-6">
+    <div class="mb-6 w-full" style="max-width: 300px;">
         {% for answer in playeranswer.question.answers %}
-            <div class="rounded-t-xl overflow-hidden bg-gradient-to-r from-emerald-50 to-teal-100 p-1">
-                <div class="text-center">
-                    <div type="button" 
-                    class="py-2 px-4 bg-emerald-500 text-white font-semibold rounded-lg shadow-md focus:outline-none  
-                        {% if answer == playeranswer.pickedanswer %}border border-gray{% endif %}" tabindex="-1">
-                       {% if playeranswer.question.goodanswer.id == answer.id %}&#10004;
-                       {% else %}
-                       <span>&#10060;</span>
-                       {% endif %}
-                       {{answer.content}}
-                    </div>
-                </div>
+            <div type="button" class="py-2 px-4 my-2 border border-gray-100 font-semibold rounded-lg shadow-md focus:outline-none flex justify-between
+                {% if answer == playeranswer.pickedanswer %}bg-gray-100 text-black {% else %} text-white {% endif %}" tabindex="-1">
+                {% if playeranswer.question.goodanswer.id == answer.id %}
+                    <span class="mr-4">&#10004;</span>
+                {% else %}
+                    <span class="mr-4">&#10060;</span>
+                {% endif %}
+                <span class="flex-1">{{answer.content}}</span>
             </div>
         {% endfor %}
-        <div class="rounded-t-xl overflow-hidden bg-gradient-to-r from-emerald-50 to-teal-100 p-1">
-                <div class="text-center">
-                    <a type="button" 
-                    href="{{ path("quizz_nextquestion", { id: playeranswer.quizz.id}) }}"
-                    class="py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md focus:outline-none 
-                      " tabindex="-1">
-                        Question suivante 
-                    </a>
-                </div>
-            </div>
     </div>
+    <a href="{{ path("quizz_nextquestion", { id: playeranswer.quizz.id }) }}" class="md-btn" tabindex="-1">
+        Question suivante
+    </a>
 </div>

@@ -3,7 +3,7 @@
     <h2>Question  {{ quizz.playeranswers|length }}/{{questions|length}} </h2>
     
     {# Hystorique answered question breadcrump #}
-    <div class="flex justify-center flex-wrap w-full">
+    <div class="hidden flex justify-center flex-wrap w-full">
         {% set total = 0 %}
         {% set current = true %}
         {% for i in 0..questions|length-1 %}

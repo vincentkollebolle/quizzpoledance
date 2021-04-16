@@ -3,8 +3,6 @@
 {% block title %}Question{% endblock %}
 
 {% block body %}
-     {% include 'quizz/bandeauplayer.html.twig' %}
-     <div class="my-5 bg-darkTransparent items-center " style="width:600px;">
-        {% include 'question/answeredquestion.html.twig'  %}
-    </div>
+    {% include 'quizz/bandeauplayer.html.twig' %}
+    {% include 'question/answeredquestion.html.twig'  %}
 {% endblock %}
