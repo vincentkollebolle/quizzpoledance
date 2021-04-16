@@ -79,6 +79,11 @@ body nav div.collapse{
     max-height: 0;
     overflow: hidden;
 }
+@media only screen and (max-width: 1023px) {
+    body nav div.collapse{
+        max-height: unset;
+    }
+}
 body nav div.collapse.show{
     max-height: 150px;
 }
