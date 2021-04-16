@@ -23,10 +23,42 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 class QuizzController extends AbstractController
 {
+     /**
+     * @Route("/", name="quizz")
+     */
+    public function quizz(Request $request)
+    {
+        //form start quizz
+        $quizz = new Quizz();
+        $quizz->setScore(0);
+
+        $form = $this->createFormBuilder($quizz)
+            ->add('playername', TextType::class, ['label' => 'Pseudonyme'])
+            ->add('start', SubmitType::class, ['label' => 'Démarrer le Quizz'])
+            ->getForm();
+        
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $quizz = $form->getData();
+            $quizz->setDate(new DateTime('now'));
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($quizz);
+            $entityManager->flush();
+    
+            return $this->redirectToRoute('quizz_nextquestion',array('id' => $quizz->getId()));
+        }
+        
+        return $this->render(
+            'quizz/quizz.html.twig', 
+            [ 
+                'form' => $form->createView()
+            ]);
+    }
+
     /**
      * @Route("/newsletter", name="newsletter")
      */
-    public function index(Request $request)
+    public function newsletter(Request $request)
     {
         $player = new Player();
         
@@ -70,40 +102,10 @@ class QuizzController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/", name="quizz")
-     */
-    public function quizz(Request $request)
-    {
-        //form start quizz
-        $quizz = new Quizz();
-        $quizz->setScore(0);
-
-        $form = $this->createFormBuilder($quizz)
-            ->add('playername', TextType::class, ['label' => 'Pseudonyme'])
-            ->add('start', SubmitType::class, ['label' => 'Démarrer le Quizz'])
-            ->getForm();
-        
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $quizz = $form->getData();
-            $quizz->setDate(new DateTime('now'));
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($quizz);
-            $entityManager->flush();
-    
-            return $this->redirectToRoute('quizz_show',array('id' => $quizz->getId()));
-        }
-        
-        return $this->render(
-            'quizz/quizz.html.twig', 
-            [ 
-                'form' => $form->createView()
-            ]);
-    }
+   
 
       /**
-     * @Route("/quizz/{quizz_id}/validate/{question_id}/{answer_id}", name="validate", methods={"GET"})
+     * @Route("/quizz/{quizz_id}/validate/{question_id}/{answer_id}", name="validate", methods={"GET"} , requirements={"quizz_id"="\d+"})
      * @Entity("quizz", expr="repository.find(quizz_id)")
      * @Entity("question", expr="repository.find(question_id)")
      * @Entity("answer", expr="repository.find(answer_id)")
@@ -134,7 +136,10 @@ class QuizzController extends AbstractController
         
         //put message in the session; 
 
-        return $this->redirectToRoute('quizz_show',array('id' => $quizz->getId()));
+        return $this->redirectToRoute('quizz_answer',array(
+            'id' => $quizz->getId(),
+            'playeranswer_id' => $playeranswer->getId()
+        ));
     }
 
    // ISSUE #18: Historique des Quizzs passés
@@ -180,10 +185,63 @@ class QuizzController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    /**
-     * @Route("/quizz/{id}", name="quizz_show")
+     
+     /**
+     * @Route("/quizz/{id}/question/{question_id}", name="quizz_question")
+     * @Entity("question", expr="repository.find(question_id)")
      */
-    public function showquizz(Request $request, Quizz $quizz)
+    public function quizzQuestion(
+        Request $request, 
+        Quizz $quizz,
+        Question $question)
+    {
+        $repository = $this->getDoctrine()->getRepository(Question::class);
+        $questions = $repository->findAll();
+
+        $repository = $this->getDoctrine()->getRepository(Playeranswer::class);
+        $playeranswers = $repository->findByQuizz($quizz);
+       
+        return $this->render(
+            'quizz/quizzquestion.html.twig', 
+            [ 
+                'quizz' => $quizz,
+                'question' => $question,
+                'questions' => $questions,
+                'playeranswers' => $playeranswers
+
+            ]);
+    }
+
+    
+     /**
+     * @Route("/quizz/{id}/answer/{playeranswer_id}", name="quizz_answer")
+     * @Entity("playeranswer", expr="repository.find(playeranswer_id)")
+     */
+    public function quizzAnswer(
+        Request $request, 
+        Quizz $quizz,
+        Playeranswer $playeranswer)
+    {
+        $repository = $this->getDoctrine()->getRepository(Question::class);
+        $questions = $repository->findAll();
+
+        $repository = $this->getDoctrine()->getRepository(Playeranswer::class);
+        $playeranswers = $repository->findByQuizz($quizz);
+
+        return $this->render(
+            'quizz/quizzanswer.html.twig', 
+            [ 
+                'quizz' => $quizz,
+                'questions' => $questions,
+                'playeranswer' => $playeranswer
+
+            ]);
+    }
+
+    /**
+    * @Route("/quizz/{id}/nextquestion", name="quizz_nextquestion")
+    */
+    public function quizzNextQuestion(Quizz $quizz)
     {
         //get unanswered questions
         //toutes les questions qui ne sont pas dans l'history du player
@@ -196,26 +254,25 @@ class QuizzController extends AbstractController
         //on construit un tableau d'id des question auxquelles il a déjà été répondu.
         $arrayAnsweredQuestion = [];
         foreach($playeranswers as $playeranswer ) {
-            $arrayAnsweredQuestion[] =  $playeranswer->getQuestion()->getId();        
+           $arrayAnsweredQuestion[] =  $playeranswer->getQuestion()->getId();        
         }
 
         //on construit un tableau des questions qu'il reste à poser
         $arrayQuestion2ask = [];
-        $arrayAnsweredQuestions = [];
-        foreach($questions as $question) {
-           
+        foreach($questions as $question) { 
             if(! in_array($question->getID(), $arrayAnsweredQuestion) ) {
                 $arrayQuestion2ask[] = $question;
             } 
         }
-        return $this->render(
-            'quizz/quizzshow.html.twig', 
-            [ 
-                'quizz' => $quizz,
-                'questions' => $questions,
-                'questions2ask' => $arrayQuestion2ask,
-                'playeranswers' => $playeranswers
 
-            ]);
+        //
+        return $this->redirectToRoute(
+            'quizz_question',
+            array(
+                'id' => $quizz->getId(),
+                'question_id' => $arrayQuestion2ask[0]->getId()
+            )
+        );
+
     }
 }
