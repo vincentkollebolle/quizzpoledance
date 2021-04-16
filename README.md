@@ -12,6 +12,9 @@ Pré-requis
 - MySQL (Disposer d'un compte utilisateur de base de donnée MySQL.)
 - PHP 7.4
 
+Tester le projet en ligne 
+====s
+http://poledance.vincentbonnier.com/
 
 Comment installer le projet ? 
 ====
