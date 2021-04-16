@@ -41,6 +41,11 @@ class Quizz
      */
     private $date;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true, options={"unsigned":true, "default":1})
+     */
+    private $combo;
+
     public function __construct()
     {
         $this->playeranswers = new ArrayCollection();
@@ -113,6 +118,18 @@ class Quizz
     public function setDate(?\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getCombo(): ?int
+    {
+        return $this->combo;
+    }
+
+    public function setCombo(?int $combo): self
+    {
+        $this->combo = $combo;
 
         return $this;
     }

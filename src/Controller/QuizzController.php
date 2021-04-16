@@ -23,14 +23,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 class QuizzController extends AbstractController
 {
-     /**
-     * @Route("/", name="quizz")
+    /**
+     * @Route("/quizz", name="quizz")
      */
     public function quizz(Request $request)
     {
         //form start quizz
         $quizz = new Quizz();
         $quizz->setScore(0);
+        $quizz->setCombo(1);
 
         $form = $this->createFormBuilder($quizz)
             ->add('playername', TextType::class, ['label' => 'Pseudonyme'])
@@ -45,7 +46,7 @@ class QuizzController extends AbstractController
             $entityManager->persist($quizz);
             $entityManager->flush();
     
-            return $this->redirectToRoute('quizz_nextquestion',array('id' => $quizz->getId()));
+            return $this->redirectToRoute('quizz_show',array('id' => $quizz->getId()));
         }
         
         return $this->render(
@@ -102,7 +103,6 @@ class QuizzController extends AbstractController
         ]);
     }
 
-   
 
       /**
      * @Route("/quizz/{quizz_id}/validate/{question_id}/{answer_id}", name="validate", methods={"GET"} , requirements={"quizz_id"="\d+"})
@@ -125,9 +125,19 @@ class QuizzController extends AbstractController
         if($question->getGoodanswer() === $answer) {
             $playeranswer->setStatus("yes");
             // Enregistrer le score
-            $quizz->setScore($quizz->getScore()+1);
+            $bonus = 100*$quizz->getCombo();
+            if($quizz->getCombo() != 8){
+                $quizz->setCombo($quizz->getCombo()*2);
+            }
+            $quizz->setScore($quizz->getScore()+$bonus);
         } else {
             $playeranswer->setStatus("no");
+             // Enregistrer le score
+             $bonus = -50;
+             $quizz->setCombo(1);
+             if($quizz->getScore() >= 50){
+                $quizz->setScore($quizz->getScore()+$bonus);
+             }
         }
 
         $entityManager = $this->getDoctrine()->getManager();

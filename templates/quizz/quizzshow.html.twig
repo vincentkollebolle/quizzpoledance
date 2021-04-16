@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Quizz Pole Dance{% endblock %}
+
+   
+{% block body %}
+
+<div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
+    <h2 class="text-xl font-bold"> {{quizz.playername | upper}} </h2>
+    <h2>Question  {{ quizz.playeranswers|length }}/{{questions|length}} </h2>
+    <div class="flex justify-center flex-wrap w-full">
+        {% set total = 0 %}
+        {% set current = true %}
+        {% for i in 0..questions|length-1 %}
+            <div class="m-1 border rounded-full px-2
+        {% if quizz.playeranswers|length >= i+1 %}
+            {% if quizz.playeranswers[i].status == "yes" %}
+                {% set total = total + 1 %}
+                border-green-400 text-green-400
+            {% else %}
+                border-red-400 text-red-400
+            {% endif %}
+        {% else %}
+            {% if current %}
+                border-white text-white
+            {% else %}
+                border-gray-400 text-gray-400
+            {% endif %}
+            {% set current = false %}
+        {% endif %}
+
+        "> {{ i+1 }}
+            </div>
+        {% endfor %}
+    </div>
+    <h2>Score : {{quizz.score}}</h2>
+    <h2>Current mutipicateur: x{{quizz.combo}}</h2>
+</div>
+<div class="flex items-center flex-col w-full rounded-lg  mt-5 p-5 text-white">
+    {% for  playeranswer in playeranswers %}
+    <div class="my-5 bg-darkTransparent items-center " style="width:600px;">
+        {% include 'question/answeredquestion.html.twig'  %}
+    </div>
+    {% endfor %}
+</div>
+<div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent mt-5 p-5 text-white">
+    {% if(questions2ask|length > 0) %}
+       {% set question = questions2ask[0] %}
+        {% include 'question/question.html.twig' %}
+    {% else %}
+        {% if total == questions|length %}
+            <i class="far fa-laugh-beam fa-3x" style="color: rgba(251, 191, 36, var(--tw-text-opacity));"></i>
+            <span style="color: rgba(251, 191, 36, var(--tw-text-opacity));">Votre score est de: {{ total }}/{{questions|length}}</span>
+            <span style="color: rgba(251, 191, 36, var(--tw-text-opacity)); padding-bottom: 10px;">BRAVO <b>{{ quizz.playername }}</b>! Vous avez obtenu un score parfait!</span>
+        {# Conditions de succès modulable #}
+        {% elseif total >= ((questions|length)/2) %}
+            <i class="far fa-smile-beam fa-3x" style="color: rgba(52, 211, 153, var(--tw-text-opacity));"></i>
+            <span style="color: rgba(52, 211, 153, var(--tw-text-opacity));">Votre score est de: {{ total }}/{{questions|length}}</span>
+            <span style="color: rgba(52, 211, 153, var(--tw-text-opacity)); padding-bottom: 10px;">Félicitations <b>{{ quizz.playername }}</b>! Vous avez réussi le test!</span>
+        {% else %}
+            <i class="far fa-frown-open fa-3x" style="color: rgba(248, 113, 113, var(--tw-text-opacity));"></i>
+            <span style="color: rgba(248, 113, 113, var(--tw-text-opacity));">Votre score est de: {{ total }}/{{questions|length}}</span>
+            <span style="color: rgba(248, 113, 113, var(--tw-text-opacity)); padding-bottom: 10px;">Dommage <b>{{ quizz.playername }}</b>! Vous avez raté le test!</span>
+        {% endif %}
+        <a class="md-btn" href="{{path('quizz_userhistory', {playername: quizz.playername})}}">User History</a>
+    {% endif %}
+</div>
+{% endblock %}
