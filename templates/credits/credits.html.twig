@@ -1,22 +1,30 @@
-{% block credits %}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Quizz Pole Dance > Remerciements{% endblock %}
+{% block body %}
 <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white mt-5">
-    <h3> Credits aux créateurs:  (projet créé via <a class="text-blue-300" href="https://github.com/vincentkollebolle/quizzpoledance/">GitHub</a>)</h3>
-    <ul class="flex justify-center flex-wrap">
-        <li class="m-1 border rounded-full px-2">Vincent Bonnier</li>
-        <li class="m-1 border rounded-full px-2">Guillaume Fix</li>
-        <li class="m-1 border rounded-full px-2">Yannick Decombes</li>
-        <li class="m-1 border rounded-full px-2">Hermann Ledent</li>
-        <li class="m-1 border rounded-full px-2">Evan Rousseau</li>
-        <li class="m-1 border rounded-full px-2">Remi Delfosse</li>
-        <li class="m-1 border rounded-full px-2">Dorian Doussain</li>
-        <li class="m-1 border rounded-full px-2">Thomas Boidun</li>
-        <li class="m-1 border rounded-full px-2">Céline Darras</li>
-        <li class="m-1 border rounded-full px-2">Paul Guerin</li>
-        <li class="m-1 border rounded-full px-2">Jeremy Peyrat</li>
-        <li class="m-1 border rounded-full px-2">William Richer</li>
-        <li class="m-1 border rounded-full px-2">Lucas Artel</li>
-        <li class="m-1 border rounded-full px-2">Wilfrid Benoit</li>
-        <li class="m-1 border rounded-full px-2">Messan Afangbom</li>
+    <h1 class="text-lg mt-5"> Créé par </h1>
+    <hr class="bg-grey mb-5" style="width: 150px"/>
+    <ul class="">
+        <li class="">Vincent Bonnier</li>
+        <li class="">Guillaume Fix</li>
+        <li class="">Yannick Decombes</li>
+        <li class="">Hermann Ledent</li>
+        <li class="">Evan Rousseau</li>
+        <li class="">Remi Delfosse</li>
+        <li class="">Dorian Doussain</li>
+        <li class="">Thomas Boidun</li>
+        <li class="">Céline Darras</li>
+        <li class="">Paul Guerin</li>
+        <li class="">Jeremy Peyrat</li>
+        <li class="">William Richer</li>
+        <li class="">Lucas Artel</li>
+        <li class="">Wilfrid Benoit</li>
+        <li class="">Messan Afangbom</li>
     </ul>
+    <br />
+    <a class="md-btn" href="https://github.com/vincentkollebolle/quizzpoledance/" target="_blank"> Retrouvez le code du projet sur Github </a>
+    
 </div>
 {% endblock %}

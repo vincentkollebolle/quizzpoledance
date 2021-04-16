@@ -46,6 +46,7 @@
               <a href="{{ path('app_logout') }}">Déconnexion</a>
             {% else %}
               <a class="rounded-lg" href="{{path('app_login')}}">Se connecter</a>
+              <a class="rounded-lg" href="{{path('credits')}}">Remerciements</a>              
             {% endif %}
           </div>
         </div>
@@ -56,8 +57,6 @@
             {% block body %}
             {% endblock %}
         </div>
-
-        {% block footer %}{{ include('layouts/footer.html.twig') }}{% endblock %}
     </div>
 
     <script src="{{ asset('assets/js/app.js') }}"></script>

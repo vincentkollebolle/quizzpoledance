@@ -105,6 +105,17 @@ class QuizzController extends AbstractController
     }
 
 
+     /**
+     * @Route("/credits", name="credits")
+     */
+    public function credits(Request $request)
+    {
+        return $this->render(
+            'credits/credits.html.twig', []);
+       
+    }
+
+
       /**
      * @Route("/quizz/{quizz_id}/validate/{question_id}/{answer_id}", name="validate", methods={"GET"} , requirements={"quizz_id"="\d+"})
      * @Entity("quizz", expr="repository.find(quizz_id)")
@@ -123,6 +134,7 @@ class QuizzController extends AbstractController
         $playeranswer->setPickedanswer($answer);
 
         //on compare playerAnswer et goodanswer
+        $bonus = 0;
         if($question->getGoodanswer() === $answer) {
             $playeranswer->setStatus("yes");
             // Enregistrer le score
@@ -149,7 +161,8 @@ class QuizzController extends AbstractController
 
         return $this->redirectToRoute('quizz_answer',array(
             'id' => $quizz->getId(),
-            'playeranswer_id' => $playeranswer->getId()
+            'playeranswer_id' => $playeranswer->getId(),
+            'bonus' => $bonus
         ));
     }
 
@@ -159,41 +172,9 @@ class QuizzController extends AbstractController
      */
     public function history(Request $request): Response
     {
-        $form = $this->createFormBuilder()
-            ->add('playername', TextType::class)
-            ->add('submit', SubmitType::class, ['label' => 'Chercher Player'])
-            ->getForm();
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            return $this->redirectToRoute('quizz_userhistory',['playername' => $form['playername']->getData()]);
-        }
         $quizzRepository = $this->getDoctrine()->getRepository(Quizz::class);
         return $this->render('quizz/history.html.twig', [
             'quizzs' => $quizzRepository->findAll(),
-            'form' => $form->createView(),
-        ]);
-    }
-    // ISSUE #18: Historique des Quizzs passés par utilisateur
-    /**
-     * @Route("/quizz/history/{playername}", name="quizz_userhistory")
-     */
-    public function userHistory(string $playername, Request $request): Response
-    {
-        $form = $this->createFormBuilder()
-            ->add('playername', TextType::class)
-            ->add('submit', SubmitType::class, ['label' => 'Chercher Player'])
-            ->getForm();
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            return $this->redirectToRoute('quizz_userhistory',['playername' => $form['playername']->getData()]);
-        }
-        $quizzRepository = $this->getDoctrine()->getRepository(Quizz::class);
-        return $this->render('quizz/history.html.twig', [
-            'quizzs' => $quizzRepository->findBy(['playername' => $playername]),
-            'playername' => $playername,
-            'form' => $form->createView(),
         ]);
     }
      
@@ -225,27 +206,24 @@ class QuizzController extends AbstractController
 
     
      /**
-     * @Route("/quizz/{id}/answer/{playeranswer_id}", name="quizz_answer")
+     * @Route("/quizz/{id}/answer/{playeranswer_id}/{bonus}", name="quizz_answer")
      * @Entity("playeranswer", expr="repository.find(playeranswer_id)")
      */
     public function quizzAnswer(
         Request $request, 
         Quizz $quizz,
-        Playeranswer $playeranswer)
+        Playeranswer $playeranswer, $bonus)
     {
         $repository = $this->getDoctrine()->getRepository(Question::class);
         $questions = $repository->findAll();
-
-        $repository = $this->getDoctrine()->getRepository(Playeranswer::class);
-        $playeranswers = $repository->findByQuizz($quizz);
 
         return $this->render(
             'quizz/quizzanswer.html.twig', 
             [ 
                 'quizz' => $quizz,
                 'questions' => $questions,
-                'playeranswer' => $playeranswer
-
+                'playeranswer' => $playeranswer,
+                'bonus' => $bonus
             ]);
     }
 

@@ -2,7 +2,11 @@
 <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 mt-5 text-white relative">
     <img class="rounded-lg mb-5" width="300" src="{{playeranswer.question.mediaurl}}" alt="Card image cap">
     <div class="answer-msg">
-        {{ playeranswer.status == "yes" ? "Trop fort(e) !" : "ah bah non c'est pas ça ! "  }}
+        {% if playeranswer.status == "yes" %}
+            Trop fort.e ! {% if bonus > 100 %}COMBO x{{ bonus / 100 }}{% endif %}: +{{bonus}} points! {% if bonus > 100 %} {% endif %}
+        {% else %}
+            ah bah non c'est pas ça ! -50 points!
+        {% endif %}
         <div class="answer-msg-smiley">
             {{ playeranswer.status == "yes" ? "&#128513;" : "&#128529;" }}
         </div>
