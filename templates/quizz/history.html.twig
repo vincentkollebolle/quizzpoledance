@@ -18,34 +18,58 @@
     <table class="edit-table w-full mb-6">
         <thead>
             <tr>
+            {% if app.user %}
+            {% if is_granted('ROLE_ADMIN') %}
                 <th>ID</th>
+            {% endif %}
+            {% endif %}
+                <th>Rang</th>
                 <th>Playername</th>
+                <th>Niveau</th>
                 <th>Score</th>
-                <th>Résultat</th>
                 <th>Date passage</th>
             </tr>
         </thead>
         <tbody>
+        {% set rang = 1 %}
         {% for quizz in quizzs %}
             <tr>
+            {% if app.user %}
+            {% if is_granted('ROLE_ADMIN') %}
                 <td>{{ quizz.id }}</td>
-                <td>{{ quizz.playername}} </td>
-                <td>{{quizz.score}} / {{quizz.playeranswers|length }}</td>
+            {% endif %}
+            {% endif %}
                 <td>
-                    {% if quizz.score == quizz.playeranswers|length %}
-                        <span class="m-1 border rounded-full px-2 border-yellow-400 text-yellow-400">Perfect</span>
+                    {% if rang == 1 %}<i class="fas fa-trophy text-yellow-400"></i>{% else %}{{rang}}{% endif %}
+                    {% set rang = rang + 1 %}
+                </td>
+                <td>{{ quizz.playername}} </td>
+                <td>
+                    {% if quizz.score < 500 %}
+                        <span class="m-1 border rounded-full px-2">Novice</span>
                     {# Conditions de succès modulable #}
-                    {% elseif quizz.score >= ((quizz.playeranswers|length)/2) %}
-                        <span class="m-1 border rounded-full px-2 border-green-400 text-green-400">Success</span>
+                    {% elseif quizz.score  < 2000 %}
+                        <span class="m-1 border rounded-full px-2">Apprenti</span>
+                    {% elseif quizz.score  < 4000 %}
+                        <span class="m-1 border rounded-full px-2">Adepte</span>
+                    {% elseif quizz.score  < 8000 %}
+                        <span class="m-1 border rounded-full px-2">Expert</span>
                     {% else %}
-                        <span class="m-1 border rounded-full px-2 border-red-400 text-red-400">Failure</span>
+                        <span class="m-1 border rounded-full px-2">Maître  <i class="fas fa-medal"></i></span>
                     {% endif %}
                 </td>
+                <td>{{ quizz.score }}</td>
                 <td>{% if quizz.date is not null %} {{ quizz.date|date("d/m/Y") }} {% else %} --- {% endif %}</td>
             </tr>
         {% else %}
             <tr>
+            {% if app.user %}
+            {% if is_granted('ROLE_ADMIN') %}
                 <td colspan="5">no records found</td>
+            {% endif %}
+            {% else %}
+                <td colspan="4">no records found</td>
+            {% endif %}
             </tr>
         {% endfor %}
         </tbody>

@@ -78,6 +78,7 @@ class QuizzController extends AbstractController
         //form start quizz
         $quizz = new Quizz();
         $quizz->setScore(0);
+        $quizz->setCombo(1);
 
         $form = $this->createFormBuilder($quizz)
             ->add('playername', TextType::class, ['label' => 'Pseudonyme'])
@@ -123,9 +124,19 @@ class QuizzController extends AbstractController
         if($question->getGoodanswer() === $answer) {
             $playeranswer->setStatus("yes");
             // Enregistrer le score
-            $quizz->setScore($quizz->getScore()+1);
+            $bonus = 100*$quizz->getCombo();
+            if($quizz->getCombo() != 8){
+                $quizz->setCombo($quizz->getCombo()*2);
+            }
+            $quizz->setScore($quizz->getScore()+$bonus);
         } else {
             $playeranswer->setStatus("no");
+             // Enregistrer le score
+             $bonus = -50;
+             $quizz->setCombo(1);
+             if($quizz->getScore() >= 50){
+                $quizz->setScore($quizz->getScore()+$bonus);
+             }
         }
 
         $entityManager = $this->getDoctrine()->getManager();
