@@ -46,7 +46,7 @@ class QuizzController extends AbstractController
             $entityManager->persist($quizz);
             $entityManager->flush();
     
-            return $this->redirectToRoute('quizz_show',array('id' => $quizz->getId()));
+            return $this->redirectToRoute('quizz_nextquestion',array('id' => $quizz->getId()));
         }
         
         return $this->render(
@@ -101,6 +101,17 @@ class QuizzController extends AbstractController
             'form' => $form->createView(),
             'players' => $players
         ]);
+    }
+
+
+     /**
+     * @Route("/credits", name="credits")
+     */
+    public function credits(Request $request)
+    {
+        return $this->render(
+            'credits/credits.html.twig', []);
+       
     }
 
 
