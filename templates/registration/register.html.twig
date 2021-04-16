@@ -3,12 +3,14 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>S'authentifier</h1>
+    <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
+        <h1>S'authentifier</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword) }}
+        {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.plainPassword) }}
 
-        <button class="btn">M'authentifier</button>
-    {{ form_end(registrationForm) }}
+            <button class="btn">M'authentifier</button>
+        {{ form_end(registrationForm) }}
+    </div>
 {% endblock %}

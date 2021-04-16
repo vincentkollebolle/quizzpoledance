@@ -4,33 +4,34 @@
 {% endblock %}
 
 {% block body %}
+<div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
 	<form method="post">
 		{% if error %}
 			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 		{% endif %}
 
 		<h1>Se connecter</h1>
-		<label for="inputEmail">Email</label>
-		<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-		<label for="inputPassword">Mot de Passe</label>
-		<input type="password" name="password" id="inputPassword" class="form-control" required>
+		<div class="md-input">
+			<input type="email" value="{{ last_username }}" name="email" id="inputEmail" required autofocus>
+			<label for="inputEmail">Email</label>
+		</div>
+		<div class="md-input">
+			<input type="password" name="password" id="inputPassword" required>
+			<label for="inputPassword">Mot de Passe</label>
+		</div>
 
-		<input
-		type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-		{#
-		        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-		        See https://symfony.com/doc/current/security/remember_me.html
-		
-		        <div class="checkbox mb-3">
-		            <label>
-		                <input type="checkbox" name="_remember_me"> Remember me
-		            </label>
-		        </div>
-		    #}
+		{# Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+		   See https://symfony.com/doc/current/security/remember_me.html
+			<div class="checkbox mb-3">
+				<label>
+					<input type="checkbox" name="_remember_me"> Remember me
+				</label>
+			</div>
+		#}
 
-		<button class="btn btn-lg btn-primary" type="submit">
-			Connexion
-		</button>
+		<button class="md-btn" type="submit">Connexion</button>
 	</form>
+</div>
 {% endblock %}
