@@ -117,23 +117,15 @@ class QuizzController extends AbstractController
         $playeranswer = new Playeranswer(); 
         $playeranswer->setQuizz($quizz);
         $playeranswer->setQuestion($question);
+        $playeranswer->setPickedanswer($answer);
 
         //on compare playerAnswer et goodanswer
         if($question->getGoodanswer() === $answer) {
             $playeranswer->setStatus("yes");
             // Enregistrer le score
             $quizz->setScore($quizz->getScore()+1);
-            //usage du flashbag ;) 
-            $this->addFlash(
-                'success',
-                'Trop fort.e !'
-            );
         } else {
             $playeranswer->setStatus("no");
-            $this->addFlash(
-                'error',
-                "ha bah non c'est pas ça !"
-            );
         }
 
         $entityManager = $this->getDoctrine()->getManager();
@@ -209,18 +201,21 @@ class QuizzController extends AbstractController
 
         //on construit un tableau des questions qu'il reste à poser
         $arrayQuestion2ask = [];
+        $arrayAnsweredQuestions = [];
         foreach($questions as $question) {
            
             if(! in_array($question->getID(), $arrayAnsweredQuestion) ) {
                 $arrayQuestion2ask[] = $question;
-            }
+            } 
         }
         return $this->render(
             'quizz/quizzshow.html.twig', 
             [ 
                 'quizz' => $quizz,
                 'questions' => $questions,
-                'questions2ask' => $arrayQuestion2ask
+                'questions2ask' => $arrayQuestion2ask,
+                'playeranswers' => $playeranswers
+
             ]);
     }
 }

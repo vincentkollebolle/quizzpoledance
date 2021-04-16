@@ -38,6 +38,12 @@ class Playeranswer
      */
     private $quizz;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Answer::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $pickedanswer;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +81,18 @@ class Playeranswer
     public function setQuizz(?Quizz $quizz): self
     {
         $this->quizz = $quizz;
+
+        return $this;
+    }
+
+    public function getPickedanswer(): ?Answer
+    {
+        return $this->pickedanswer;
+    }
+
+    public function setPickedanswer(?Answer $pickedanswer): self
+    {
+        $this->pickedanswer = $pickedanswer;
 
         return $this;
     }
