@@ -53,3 +53,6 @@ Mot de passe par défaut : admin
 $> php bin/console doctrine:fixtures:load
 ```
 
+Version API 
+====
+L'url /apiplateform permet d'accéder à la documentation de la version API-Rest du projet.
