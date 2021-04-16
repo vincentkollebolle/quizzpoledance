@@ -14,9 +14,9 @@
     top: 59px;"> 
           
         {% if playeranswer.status == "yes" %} 
-            Trop fort.e !
+            Trop fort.e ! {% if bonus > 100 %}COMBO x{{ bonus / 100 }}{% endif %}: +{{bonus}} points! {% if bonus > 100 %} {% endif %}
         {% else %}
-            ah bah non c'est pas ça ! 
+            ah bah non c'est pas ça ! -50 points!
         {% endif %}
     </div>
     <div style="font-size:100px;position:absolute;top:10px;right:10px;">
