@@ -24,6 +24,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 class QuizzController extends AbstractController
 {
     /**
+     * @Route("/", name="home")
      * @Route("/quizz", name="quizz")
      */
     public function quizz(Request $request)
