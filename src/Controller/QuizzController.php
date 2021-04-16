@@ -76,7 +76,7 @@ class QuizzController extends AbstractController
         $quizz->setScore(0);
 
         $form = $this->createFormBuilder($quizz)
-            ->add('playername', TextType::class)
+            ->add('playername', TextType::class, ['label' => 'Pseudonyme'])
             ->add('start', SubmitType::class, ['label' => 'Démarrer le Quizz'])
             ->getForm();
         
