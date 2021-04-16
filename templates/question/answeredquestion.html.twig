@@ -1,36 +1,18 @@
 
 <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 mt-5 text-white relative">
     <img class="rounded-lg mb-5" width="300" src="{{playeranswer.question.mediaurl}}" alt="Card image cap">
-    <div style="    position: absolute;
-    background: white;
-    color: black;
-    padding: 10px;
-    width: 80%;
-    font-size: 29px;
-    font-weight: bold;
-    opacity: 80%;
-    border-radius: 20px;
-    text-align: center;
-    top: 59px;"> 
-          
-        {% if playeranswer.status == "yes" %} 
-            Trop fort.e !
-        {% else %}
-            ah bah non c'est pas ça ! 
-        {% endif %}
+    <div class="answer-msg">
+        {{ playeranswer.status == "yes" ? "Trop fort(e) !" : "ah bah non c'est pas ça ! "  }}
+        <div class="answer-msg-smiley">
+            {{ playeranswer.status == "yes" ? "&#128513;" : "&#128529;" }}
+        </div>
     </div>
-    <div style="font-size:100px;position:absolute;top:10px;right:10px;">
-        {% if playeranswer.status == "yes" %} 
-            &#128513;
-        {% else %}
-            &#128529;
-        {% endif %}
-    </div>
+
     <h5 class="text-lg mb-3">{{playeranswer.question.content}}</h5>
     <div class="mb-6 w-full" style="max-width: 300px;">
         {% for answer in playeranswer.question.answers %}
-            <div type="button" class="py-2 px-4 my-2 border border-gray-100 font-semibold rounded-lg shadow-md focus:outline-none flex justify-between
-                {% if answer == playeranswer.pickedanswer %}bg-gray-100 text-black {% else %} text-white {% endif %}" tabindex="-1">
+            <div type="button" class="py-2 px-4 my-2 border border-gray-100 font-semibold rounded-lg shadow-md focus:outline-none
+                flex justify-between {{ answer == playeranswer.pickedanswer ? "bg-gray-100 text-black" : "text-white" }}" tabindex="-1">
                 {% if playeranswer.question.goodanswer.id == answer.id %}
                     <span class="mr-4">&#10004;</span>
                 {% else %}
