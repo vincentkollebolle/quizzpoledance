@@ -24,7 +24,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 class QuizzController extends AbstractController
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/newsletter", name="newsletter")
      */
     public function index(Request $request)
     {
@@ -71,7 +71,7 @@ class QuizzController extends AbstractController
     }
 
     /**
-     * @Route("/quizz", name="quizz")
+     * @Route("/", name="quizz")
      */
     public function quizz(Request $request)
     {

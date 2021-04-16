@@ -8,6 +8,8 @@
 <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
     <h2 class="text-xl font-bold"> {{quizz.playername | upper}} </h2>
     <h2>Question  {{ quizz.playeranswers|length }}/{{questions|length}} </h2>
+    
+    {# Hystorique answered question breadcrump #}
     <div class="flex justify-center flex-wrap w-full">
         {% set total = 0 %}
         {% set current = true %}
@@ -34,13 +36,7 @@
         {% endfor %}
     </div>
 </div>
-<div class="flex items-center flex-col w-full rounded-lg  mt-5 p-5 text-white">
-    {% for  playeranswer in playeranswers %}
-    <div class="my-5 bg-darkTransparent items-center " style="width:600px;">
-        {% include 'question/answeredquestion.html.twig'  %}
-    </div>
-    {% endfor %}
-</div>
+{# question to ask #}
 <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent mt-5 p-5 text-white">
     {% if(questions2ask|length > 0) %}
        {% set question = questions2ask[0] %}
@@ -62,5 +58,13 @@
         {% endif %}
         <a class="md-btn" href="{{path('quizz_userhistory', {playername: quizz.playername})}}">User History</a>
     {% endif %}
+</div>
+{# Hystorique answered question #}
+<div class="flex items-center flex-col w-full rounded-lg  mt-5 p-5 text-white">
+    {% for  playeranswer in playeranswers %}
+    <div class="my-5 bg-darkTransparent items-center " style="width:600px;">
+        {% include 'question/answeredquestion.html.twig'  %}
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}

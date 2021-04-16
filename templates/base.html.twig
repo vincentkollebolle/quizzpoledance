@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/tailwind.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/carousel-vertical.css') }}" media="screen" />
     <!-- FontAwsome-->
     <script src="https://kit.fontawesome.com/8ea8f44ca5.js" crossorigin="anonymous"></script>
 
@@ -24,7 +24,7 @@
       </div>
       <nav class="flex flex-col lg:flex-row align-center justify-between mb-5 p-3 text-white rounded-lg">
         <div class="head">
-          <a class="text-xl rounded-lg" href="{{path('home')}}">Pole Dance Quizz</a>
+          <a class="text-xl rounded-lg" href="{{path('quizz')}}">Pole Dance Quizz</a>
           <div class="collapse-btn lg:hidden">
             <div class="bar"></div>
             <div class="bar"></div>
@@ -61,6 +61,7 @@
     </div>
 
     <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script type="text/javascript" src="{{ asset("assets/js/jquery.carousel-vertical.js") }}"></script>
     {% block javascripts %}
 
     {% endblock %}
