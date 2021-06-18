@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -21,16 +22,15 @@ class QuizzControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/');
         //Then: la page web se charge (200 OK)
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        
+
         //and: Un titre h1 contenant le mot quizz apparait 
-        $this->assertSelectorTextContains('html h1', 'quizz');
+        $this->assertSelectorTextContains('html', 'Pole Dance Quizz');
 
         //and: on lui propose un formulaire pour ajouter son mail
-        $this->assertCount(1, $crawler->filter('form.subscribeForm'));
+        $this->assertCount(1, $crawler->selectButton('Démarrer le Quizz'));
     }
 
     /*
     * Scénario : Un utilisateur peut laisser son email pour être notifier de la sortie du quizz.
     */
-    
 }
