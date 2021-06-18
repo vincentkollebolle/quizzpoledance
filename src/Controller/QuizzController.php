@@ -6,10 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Player; 
-use App\Entity\Quizz; 
-use App\Entity\Question; 
-use App\Entity\Answer; 
+use App\Entity\Administrator;
+use App\Entity\Quizz;
+use App\Entity\Question;
+use App\Entity\Answer;
 use App\Entity\Playeranswer;
 
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -38,7 +38,7 @@ class QuizzController extends AbstractController
             ->add('playername', TextType::class, ['label' => 'Pseudonyme'])
             ->add('start', SubmitType::class, ['label' => 'Démarrer le Quizz'])
             ->getForm();
-        
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $quizz = $form->getData();
@@ -46,15 +46,16 @@ class QuizzController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($quizz);
             $entityManager->flush();
-    
-            return $this->redirectToRoute('quizz_nextquestion',array('id' => $quizz->getId()));
+
+            return $this->redirectToRoute('quizz_nextquestion', array('id' => $quizz->getId()));
         }
-        
+
         return $this->render(
-            'quizz/quizz.html.twig', 
-            [ 
+            'quizz/quizz.html.twig',
+            [
                 'form' => $form->createView()
-            ]);
+            ]
+        );
     }
 
     /**
@@ -62,40 +63,41 @@ class QuizzController extends AbstractController
      */
     public function newsletter(Request $request)
     {
-        $player = new Player();
-        
-        $repository = $this->getDoctrine()->getRepository(Player::class);
+        $player = new Administrator();
+
+        $repository = $this->getDoctrine()->getRepository(Administrator::class);
         $players = $repository->findAll();
 
         $form = $this->createFormBuilder($player)
             ->add(
-                'email', 
+                'email',
                 EmailType::class,
                 [
                     'help' => 'Donnez votre e-mail et soyez informé.e lors de la sortie du quizz !',
-                ])
+                ]
+            )
             ->add('save', SubmitType::class, ['label' => 'Prevenez-moi !'])
             ->getForm();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-                // $form->getData() holds the submitted values
-                // but, the original `$task` variable has also been updated
-                $player = $form->getData();
-               
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($player);
-                $entityManager->flush();
-                
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+            $player = $form->getData();
 
-                //usage du flashbag ;) 
-                $this->addFlash(
-                    'success',
-                    'Vous serez notifié.e des que le quizz est en ligne !'
-                );
-                
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($player);
+            $entityManager->flush();
 
-                return $this->redirectToRoute('quizz');
+
+            //usage du flashbag ;) 
+            $this->addFlash(
+                'success',
+                'Vous serez notifié.e des que le quizz est en ligne !'
+            );
+
+
+            return $this->redirectToRoute('quizz');
         }
 
         return $this->render('quizz/index.html.twig', [
@@ -105,18 +107,19 @@ class QuizzController extends AbstractController
     }
 
 
-     /**
+    /**
      * @Route("/credits", name="credits")
      */
     public function credits(Request $request)
     {
         return $this->render(
-            'credits/credits.html.twig', []);
-       
+            'credits/credits.html.twig',
+            []
+        );
     }
 
 
-      /**
+    /**
      * @Route("/quizz/{quizz_id}/validate/{question_id}/{answer_id}", name="validate", methods={"GET"} , requirements={"quizz_id"="\d+"})
      * @Entity("quizz", expr="repository.find(quizz_id)")
      * @Entity("question", expr="repository.find(question_id)")
@@ -125,48 +128,48 @@ class QuizzController extends AbstractController
     public function validate(
         Quizz $quizz,
         Question $question,
-        Answer $answer): Response
-    {
-       
-        $playeranswer = new Playeranswer(); 
+        Answer $answer
+    ): Response {
+
+        $playeranswer = new Playeranswer();
         $playeranswer->setQuizz($quizz);
         $playeranswer->setQuestion($question);
         $playeranswer->setPickedanswer($answer);
 
         //on compare playerAnswer et goodanswer
         $bonus = 0;
-        if($question->getGoodanswer() === $answer) {
+        if ($question->getGoodanswer() === $answer) {
             $playeranswer->setStatus("yes");
             // Enregistrer le score
-            $bonus = 100*$quizz->getCombo();
-            if($quizz->getCombo() != 8){
-                $quizz->setCombo($quizz->getCombo()*2);
+            $bonus = 100 * $quizz->getCombo();
+            if ($quizz->getCombo() != 8) {
+                $quizz->setCombo($quizz->getCombo() * 2);
             }
-            $quizz->setScore($quizz->getScore()+$bonus);
+            $quizz->setScore($quizz->getScore() + $bonus);
         } else {
             $playeranswer->setStatus("no");
-             // Enregistrer le score
-             $bonus = -50;
-             $quizz->setCombo(1);
-             if($quizz->getScore() >= 50){
-                $quizz->setScore($quizz->getScore()+$bonus);
-             }
+            // Enregistrer le score
+            $bonus = -50;
+            $quizz->setCombo(1);
+            if ($quizz->getScore() >= 50) {
+                $quizz->setScore($quizz->getScore() + $bonus);
+            }
         }
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($playeranswer);
         $entityManager->flush();
-        
+
         //put message in the session; 
 
-        return $this->redirectToRoute('quizz_answer',array(
+        return $this->redirectToRoute('quizz_answer', array(
             'id' => $quizz->getId(),
             'playeranswer_id' => $playeranswer->getId(),
             'bonus' => $bonus
         ));
     }
 
-   // ISSUE #18: Historique des Quizzs passés
+    // ISSUE #18: Historique des Quizzs passés
     /**
      * @Route("/quizz/history", name="quizz_history")
      */
@@ -177,85 +180,88 @@ class QuizzController extends AbstractController
             'quizzs' => $quizzRepository->findAll(),
         ]);
     }
-     
-     /**
+
+    /**
      * @Route("/quizz/{id}/question/{question_id}", name="quizz_question")
      * @Entity("question", expr="repository.find(question_id)")
      */
     public function quizzQuestion(
-        Request $request, 
+        Request $request,
         Quizz $quizz,
-        Question $question)
-    {
+        Question $question
+    ) {
         $repository = $this->getDoctrine()->getRepository(Question::class);
         $questions = $repository->findAll();
 
         $repository = $this->getDoctrine()->getRepository(Playeranswer::class);
         $playeranswers = $repository->findByQuizz($quizz);
-       
+
         return $this->render(
-            'quizz/quizzquestion.html.twig', 
-            [ 
+            'quizz/quizzquestion.html.twig',
+            [
                 'quizz' => $quizz,
                 'question' => $question,
                 'questions' => $questions,
                 'playeranswers' => $playeranswers
 
-            ]);
+            ]
+        );
     }
 
-    
-     /**
+
+    /**
      * @Route("/quizz/{id}/answer/{playeranswer_id}/{bonus}", name="quizz_answer")
      * @Entity("playeranswer", expr="repository.find(playeranswer_id)")
      */
     public function quizzAnswer(
-        Request $request, 
+        Request $request,
         Quizz $quizz,
-        Playeranswer $playeranswer, $bonus)
-    {
+        Playeranswer $playeranswer,
+        $bonus
+    ) {
         $repository = $this->getDoctrine()->getRepository(Question::class);
         $questions = $repository->findAll();
 
         return $this->render(
-            'quizz/quizzanswer.html.twig', 
-            [ 
+            'quizz/quizzanswer.html.twig',
+            [
                 'quizz' => $quizz,
                 'questions' => $questions,
                 'playeranswer' => $playeranswer,
                 'bonus' => $bonus
-            ]);
+            ]
+        );
     }
 
     /**
-    * @Route("/quizz/{id}/nextquestion", name="quizz_nextquestion")
-    */
+     * @Route("/quizz/{id}/nextquestion", name="quizz_nextquestion")
+     */
     public function quizzNextQuestion(Quizz $quizz)
     {
         //get unanswered questions
         //toutes les questions qui ne sont pas dans l'history du player
         $repository = $this->getDoctrine()->getRepository(Question::class);
         $questions = $repository->findAll();
-        
+
         $repository = $this->getDoctrine()->getRepository(Playeranswer::class);
         $playeranswers = $repository->findByQuizz($quizz);
-        
+
         //on construit un tableau d'id des question auxquelles il a déjà été répondu.
         $arrayAnsweredQuestion = [];
-        foreach($playeranswers as $playeranswer ) {
-           $arrayAnsweredQuestion[] =  $playeranswer->getQuestion()->getId();        
+        foreach ($playeranswers as $playeranswer) {
+            $arrayAnsweredQuestion[] =  $playeranswer->getQuestion()->getId();
         }
 
         //on construit un tableau des questions qu'il reste à poser
         $arrayQuestion2ask = [];
-        foreach($questions as $question) { 
-            if(! in_array($question->getID(), $arrayAnsweredQuestion) ) {
+        foreach ($questions as $question) {
+            if (!in_array($question->getID(), $arrayAnsweredQuestion)) {
                 $arrayQuestion2ask[] = $question;
-            } 
+            }
         }
 
         //
-        if(count($arrayQuestion2ask) > 0) {
+        if (count($arrayQuestion2ask) > 0) {
             return $this->redirectToRoute(
                 'quizz_question',
                 array(
@@ -265,11 +271,11 @@ class QuizzController extends AbstractController
             );
         } else {
             return $this->render(
-                'quizz/endofquizz.html.twig', 
-                [ 'quizz' => $quizz
-                ]);
-            
+                'quizz/endofquizz.html.twig',
+                [
+                    'quizz' => $quizz
+                ]
+            );
         }
-
     }
 }

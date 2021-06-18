@@ -2,7 +2,7 @@
 
 namespace App\Security;
 
-use App\Entity\Player;
+use App\Entity\Administrator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,7 +65,7 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->entityManager->getRepository(Player::class)->findOneBy(['email' => $credentials['email']]);
+        $user = $this->entityManager->getRepository(Administrator::class)->findOneBy(['email' => $credentials['email']]);
 
         if (!$user) {
             // fail authentication with a custom error

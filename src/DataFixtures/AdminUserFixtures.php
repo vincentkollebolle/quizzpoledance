@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\Player;
+use App\Entity\Administrator;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AdminUserFixtures extends Fixture
@@ -18,9 +18,9 @@ class AdminUserFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $player = new Player(); 
+        $player = new Administrator();
         $player->setEmail("admin@admin.com");
-        
+
         $password = $this->encoder->encodePassword($player, 'admin');
         $player->setPassword($password);
 

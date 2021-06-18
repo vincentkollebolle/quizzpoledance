@@ -2,17 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\PlayerRepository;
+use App\Repository\AdministratorRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass=PlayerRepository::class)
+ * @ORM\Entity(repositoryClass=AdministratorRepository::class)
  * @UniqueEntity(fields={"email"}, message="Il y a déjà un compte avec cet Email")
  */
-class Player implements UserInterface
+class Administrator implements UserInterface
 {
     /**
      * @ORM\Id
