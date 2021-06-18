@@ -58,54 +58,6 @@ class QuizzController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/newsletter", name="newsletter")
-     */
-    public function newsletter(Request $request)
-    {
-        $player = new Administrator();
-
-        $repository = $this->getDoctrine()->getRepository(Administrator::class);
-        $players = $repository->findAll();
-
-        $form = $this->createFormBuilder($player)
-            ->add(
-                'email',
-                EmailType::class,
-                [
-                    'help' => 'Donnez votre e-mail et soyez informé.e lors de la sortie du quizz !',
-                ]
-            )
-            ->add('save', SubmitType::class, ['label' => 'Prevenez-moi !'])
-            ->getForm();
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
-            $player = $form->getData();
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($player);
-            $entityManager->flush();
-
-
-            //usage du flashbag ;) 
-            $this->addFlash(
-                'success',
-                'Vous serez notifié.e des que le quizz est en ligne !'
-            );
-
-
-            return $this->redirectToRoute('quizz');
-        }
-
-        return $this->render('quizz/index.html.twig', [
-            'form' => $form->createView(),
-            'players' => $players
-        ]);
-    }
-
 
     /**
      * @Route("/credits", name="credits")
