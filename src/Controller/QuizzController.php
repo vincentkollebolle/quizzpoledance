@@ -23,8 +23,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 class QuizzController extends AbstractController
 {
+
     /**
      * @Route("/", name="home")
+     */
+    public function home(Request $request)
+    {
+        // redirects to the "quizz" route
+        return $this->redirectToRoute('quizz');
+    }
+
+    /**
      * @Route("/quizz", name="quizz")
      */
     public function quizz(Request $request)
