@@ -1,16 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
     <div id="custom-404">
 
-        <h1>
-           Oups Cette page n'existe pas 
+        <h1 style="text-align:center; font-size:1.5rem;">
+           Cette page n'est pas accessible 
         </h1>
 
         <div class="d-flex justify-content-center ">
             <p style="font-size:100px">&#128527; &#128528; &#128529;</p>
         </div>
-        <button><a href="{{path('quizz')}}">retour à l'accueil</a></button>
+        <button class="w-full items-center"><a class="md-btn w-full flex flex-col items-center mt-5" href="{{path('quizz')}}">Retourner sur l'accueil</a></button>
     </div>
-
+</div>
 {% endblock %}

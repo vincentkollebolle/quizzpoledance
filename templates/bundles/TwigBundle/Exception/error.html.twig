@@ -2,10 +2,13 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Page not found</h1>
+<div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
 
-    <p>
-        The requested page couldn't be located. Checkout for any URL
-        misspelling or <a href="{{ path('quizz') }}">return to the homepage</a>.
+    <h1>Page Inaccessible</h1>
+
+    <p style="text-align:center">
+        La page demandée n'a pas pu être localisée. 
+        <button class="w-full items-center"><a class="md-btn w-full flex flex-col items-center mt-5" href="{{path('quizz')}}">Retourner sur l'accueil</a></button>
     </p>
+</div>
 {% endblock %}
