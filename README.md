@@ -13,22 +13,22 @@ Pré-requis
 - PHP 7.4
 
 Tester le projet en ligne 
-====s
+====
 http://poledance.vincentbonnier.com/
 
 Comment installer le projet ? 
 ====
 - Cloner le projet via Git 
 ```
- git clone https://github.com/vincentkollebolle/quizzpoledance.git
+git clone https://github.com/vincentkollebolle/quizzpoledance.git
 ```
 - Se rendre dans le dossier du projet 
 ```
- cd quizzpoledance/
+cd quizzpoledance/
 ```
 - Installer les dépendances manquantes 
 ```
- composer install
+composer install
 ```
 - Créer et configurer un fichier .env.local et renseigner vos inforamtions de connexion MySQL. 
 ```
@@ -42,27 +42,25 @@ php bin/console doctrine:database:create
 
 -Créer les migrations 
 ```
- php bin/console make:migration
+php bin/console make:migration
 ```
 -Exécuter les migrations
 ```
- php bin/console doctrine:migrations:migrate
+php bin/console doctrine:migrations:migrate
 ```
 
 - Charger les fixutres du projet (pack de question sur les figures de Pole Dance + utilisateur admin.
 Login du compte administrateur par défaut: admin@admin.com
 Mot de passe par défaut : admin 
 ```
- php bin/console doctrine:fixtures:load
+php bin/console doctrine:fixtures:load
 ```
 
 -Lancer le projet
 ```
- php bin/console doctrine:fixtures:load
-
+symfony server:start
+```
 
 Version API 
 ====
 L'url /apiplateform permet d'accéder à la documentation de la version API-Rest du projet.
-
-
