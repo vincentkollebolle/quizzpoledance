@@ -45,7 +45,7 @@ class QuizzController extends AbstractController
         $quizz->setCombo(1);
 
         $form = $this->createFormBuilder($quizz)
-            ->add('playername', TextType::class, ['label' => 'Pseudonyme'])
+            ->add('playername', TextType::class, ['attr' => array('placeholder' => 'Pseudonyme')])
             ->add('start', SubmitType::class, ['label' => 'Démarrer le Quizz'])
             ->getForm();
 
@@ -164,6 +164,10 @@ class QuizzController extends AbstractController
 
         $repository = $this->getDoctrine()->getRepository(Question::class);
         $questions = $repository->findAll();
+
+        //Action qui permet de rendre l'apparation des questions aléatoire.
+        shuffle($questions);
+        foreach ($questions as $question);
 
         $repository = $this->getDoctrine()->getRepository(Playeranswer::class);
         $playeranswers = $repository->findByQuizz($quizz);
