@@ -19,6 +19,13 @@ class QuestionRepository extends ServiceEntityRepository
         parent::__construct($registry, Question::class);
     }
 
+    public function findAll() {
+        return $this->createQueryBuilder('question')
+        ->setMaxResults(25)
+        ->getQuery()
+        ->getResult();
+    }
+
     // /**
     //  * @return Question[] Returns an array of Question objects
     //  */
