@@ -47,4 +47,16 @@ class PlayeranswerRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function questionAlreadyAnswered($quizzId, $questionId)
+    {
+        return $this->createQueryBuilder('p')
+                ->select('p')
+                ->andWhere('p.quizz = :quizzId')
+                ->setParameter('quizzId', $quizzId)
+                ->andWhere('p.question = :questionId')
+                ->setParameter('questionId', $questionId)
+                ->getQuery()
+                ->getResult() != null;
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\PlayeranswerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,8 +24,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 class QuizzController extends AbstractController
 {
+
     /**
      * @Route("/", name="home")
+     */
+    public function home(Request $request)
+    {
+        // redirects to the "quizz" route
+        return $this->redirectToRoute('quizz');
+    }
+
+    /**
      * @Route("/quizz", name="quizz")
      */
     public function quizz(Request $request)
@@ -82,6 +92,11 @@ class QuizzController extends AbstractController
         Question $question,
         Answer $answer
     ): Response {
+
+        $playeranswerRepository = $this->getDoctrine()->getRepository(Playeranswer::class);
+        if($playeranswerRepository->questionAlreadyAnswered($quizz->getId(),$question->getId())){
+            return $this->quizzNextQuestion($quizz);
+        }
 
         $playeranswer = new Playeranswer();
         $playeranswer->setQuizz($quizz);
@@ -142,8 +157,17 @@ class QuizzController extends AbstractController
         Quizz $quizz,
         Question $question
     ) {
+        $playeranswerRepository = $this->getDoctrine()->getRepository(Playeranswer::class);
+        if($playeranswerRepository->questionAlreadyAnswered($quizz->getId(),$question->getId())){
+            return $this->quizzNextQuestion($quizz);
+        }
+
         $repository = $this->getDoctrine()->getRepository(Question::class);
         $questions = $repository->findAll();
+
+        //Action qui permet de rendre l'apparation des questions aléatoire.
+        shuffle($questions);
+        foreach ($questions as $question);
 
         $repository = $this->getDoctrine()->getRepository(Playeranswer::class);
         $playeranswers = $repository->findByQuizz($quizz);
