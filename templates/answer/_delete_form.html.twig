@@ -1,5 +1,14 @@
 <form class="mt-5" method="post" action="{{ path('answer_delete', {'id': answer.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ answer.id) }}">
-    <button class="md-btn">Delete</button>
+    {% if isGoodAnswer %}
+        <button class="md-btn" disabled title="Cette réponse est sélectionnée comme bonne réponse dans une ou plusieurs questions. Impossible de la supprimer">
+            Delete
+        </button>
+    {% else %}
+        <button class="md-btn">Delete</button>
+    {% endif %}
 </form>
+
+
+

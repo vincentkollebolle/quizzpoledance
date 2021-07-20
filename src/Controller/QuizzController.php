@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\PlayeranswerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,7 +47,7 @@ class QuizzController extends AbstractController
         $quizz->setCombo(1);
 
         $form = $this->createFormBuilder($quizz)
-            ->add('playername', TextType::class, ['label' => 'Pseudonyme'])
+            ->add('playername', TextType::class, ['attr' => array('placeholder' => 'Pseudonyme')])
             ->add('start', SubmitType::class, ['label' => 'Démarrer le Quizz'])
             ->getForm();
 
@@ -94,6 +95,11 @@ class QuizzController extends AbstractController
         Question $question,
         Answer $answer
     ): Response {
+
+        $playeranswerRepository = $this->getDoctrine()->getRepository(Playeranswer::class);
+        if($playeranswerRepository->questionAlreadyAnswered($quizz->getId(),$question->getId())){
+            return $this->quizzNextQuestion($quizz);
+        }
 
         $playeranswer = new Playeranswer();
         $playeranswer->setQuizz($quizz);
@@ -154,12 +160,22 @@ class QuizzController extends AbstractController
         Quizz $quizz,
         Question $question
     ) {
+        $playeranswerRepository = $this->getDoctrine()->getRepository(Playeranswer::class);
+        if($playeranswerRepository->questionAlreadyAnswered($quizz->getId(),$question->getId())){
+            return $this->quizzNextQuestion($quizz);
+        }
+
         $repository = $this->getDoctrine()->getRepository(Question::class);
         $questions = $repository->findAccording2Difficulty($quizz->difficulty);
+
+        //Action qui permet de rendre l'apparation des questions aléatoire.
+        shuffle($questions);
+        foreach ($questions as $question);
 
         $repository = $this->getDoctrine()->getRepository(Playeranswer::class);
         $playeranswers = $repository->findByQuizz($quizz);
 
+        
         return $this->render(
             'quizz/quizzquestion.html.twig',
             [

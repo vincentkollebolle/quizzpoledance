@@ -16,7 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\FileUploader;
-
+use Symfony\Component\Asset\PathPackage;
+use Symfony\Component\Asset\VersionStrategy\StaticVersionStrategy;
 
 /**
  * @Route("/question")
@@ -40,6 +41,7 @@ class QuestionController extends AbstractController
     {
         $question = new Question();
         $answer = new Answer();
+        $package = new PathPackage('/uploads', new StaticVersionStrategy(''));
 
         $formQuestion = $this->createForm(QuestionType::class, $question);
         $formQuestion->handleRequest($request);
@@ -51,16 +53,14 @@ class QuestionController extends AbstractController
                 $question->addAnswer($question->getGoodanswer());
             }
             $file = $formQuestion['upload_file']->getData();
-            $question->setMediaurl($file);
             if ($file) 
             {
+                
                 $file_name = $file_uploader->upload($file);
+                $question->setMediaurl($package->getUrl($file_name));
                 if (null !== $file_name) // for example
                 {
                 $directory = $file_uploader->getTargetDirectory();
-                $full_path = $directory.'/'.$file_name;
-                // Do what you want with the full path file...
-                // Why not read the content or parse it !!!
                 }
                 else
                 {

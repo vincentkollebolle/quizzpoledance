@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Answer;
 use App\Form\AnswerType;
 use App\Repository\AnswerRepository;
+use App\Repository\QuestionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,18 +52,21 @@ class AnswerController extends AbstractController
     /**
      * @Route("/{id}", name="answer_show", methods={"GET"})
      */
-    public function show(Answer $answer): Response
+    public function show(Answer $answer, QuestionRepository $questionRepository): Response
     {
+        $isGoodAnswer = $questionRepository->isGoodAnswer($answer->getId());
         return $this->render('answer/show.html.twig', [
             'answer' => $answer,
+            'isGoodAnswer' => $isGoodAnswer,
         ]);
     }
 
     /**
      * @Route("/{id}/edit", name="answer_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Answer $answer): Response
+    public function edit(Request $request, Answer $answer, QuestionRepository $questionRepository): Response
     {
+        $isGoodAnswer = $questionRepository->isGoodAnswer($answer->getId());
         $form = $this->createForm(AnswerType::class, $answer);
         $form->handleRequest($request);
 
@@ -75,15 +79,17 @@ class AnswerController extends AbstractController
         return $this->render('answer/edit.html.twig', [
             'answer' => $answer,
             'form' => $form->createView(),
+            'isGoodAnswer' => $isGoodAnswer,
         ]);
     }
 
     /**
      * @Route("/{id}", name="answer_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Answer $answer): Response
+    public function delete(Request $request, Answer $answer, QuestionRepository $questionRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$answer->getId(), $request->request->get('_token'))) {
+        $isGoodAnswer = $questionRepository->isGoodAnswer($answer->getId());
+        if ($this->isCsrfTokenValid('delete'.$answer->getId(), $request->request->get('_token')) && !$isGoodAnswer) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($answer);
             $entityManager->flush();
