@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\PlayeranswerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -92,6 +93,11 @@ class QuizzController extends AbstractController
         Answer $answer
     ): Response {
 
+        $playeranswerRepository = $this->getDoctrine()->getRepository(Playeranswer::class);
+        if($playeranswerRepository->questionAlreadyAnswered($quizz->getId(),$question->getId())){
+            return $this->quizzNextQuestion($quizz);
+        }
+
         $playeranswer = new Playeranswer();
         $playeranswer->setQuizz($quizz);
         $playeranswer->setQuestion($question);
@@ -151,6 +157,11 @@ class QuizzController extends AbstractController
         Quizz $quizz,
         Question $question
     ) {
+        $playeranswerRepository = $this->getDoctrine()->getRepository(Playeranswer::class);
+        if($playeranswerRepository->questionAlreadyAnswered($quizz->getId(),$question->getId())){
+            return $this->quizzNextQuestion($quizz);
+        }
+
         $repository = $this->getDoctrine()->getRepository(Question::class);
         $questions = $repository->findAll();
 
