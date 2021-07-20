@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Quizz Pole Dance{% endblock %}
+{% block title %}Pole Dance Quizz{% endblock %}
 
 {% block body %}
-    <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
-        <img style="width:250px;" class="rounded-full my-3" src="{{ asset("img/logo.jpg")}}" alt="logo quizz pole dance" />
+    <div class="text-white">
+        <img style="width:250px;" class="rounded-circle my-3" src="{{ asset("img/logo.jpg")}}" alt="logo quizz pole dance" />
         <h1 class="mt-5 text-xl font-bold">Bientôt un super quizz sur la pole dance !  </h1>
-        <h2 class="mb-4 rounded-full bg-darkTransparent p-1 px-3">Testez votre connaissance des figures</h2>
+        <h2 class="mb-4  p-1 px-3">Testez votre connaissance des figures</h2>
         <p>Déjà <span class="font-bold text-lg text-green-300">{{players|length}}</span> personnes attendent le Quizz et vous ?</p>
         <p>Donnez votre e-mail et soyez informé(e) lors de la sortie du quizz !</p>
         {{ form_start(form) }}

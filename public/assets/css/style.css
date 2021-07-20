@@ -1,13 +1,12 @@
 body {
-    background: linear-gradient(0deg, rgba(52, 211, 153, 1) 0%, rgba(59, 130, 246, 1) 100%) fixed;
-    margin: 0;
-    position: absolute;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
+/* background-image: url("../../img/bg_pole_dance.jpg"); */
+background-color: black;
 }
-body nav{
+
+.dropdown-menu {
+    z-index: 9999999;
+}
+/* body nav{
     background: rgba(0,0,0,.3);
 }
 body nav a{
@@ -30,7 +29,7 @@ body nav a:first-child{
     }
 }
 body nav a:hover{
-    background: rgba(0,0,0,.3);
+    background: rgb(255, 255, 255);
 }
 body nav div.head{
     display: flex;
@@ -262,4 +261,4 @@ div.answer-msg div.answer-msg-smiley{
     top:50%;
     transform: translate(50%, -50%);
     right: 0;
-}
+} */

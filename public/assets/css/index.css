@@ -1,0 +1,16 @@
+body {
+    background-image: url("../../img/bg_pole_dance.png");
+    }
+
+.btnNav {
+    display: flex;
+margin-left: 500px;
+}
+
+.btnConnection {
+    margin-left: 115px;
+}
+
+.btnNewResponse{
+    margin-left: 65px;
+}
