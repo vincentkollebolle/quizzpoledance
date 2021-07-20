@@ -1,37 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Answer index{% endblock %}
+{% block title %}Liste des réponses{% endblock %}
+
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('public\assets\css\index.css')}}">{% endblock %}
 
 {% block body %}
     <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
-        <h1>Answer index</h1>
+
+    <div class="btnNewResponse">
+        <div class="d-grid gap-2 col-12 ml-5">    
+            <a href="{{ path('answer_new') }}"><button class="btn btn-dark text-light" type="button" >Ajouter une réponse</button></a>
+        </div>
+    </div>   
+        <h1 class="text-dark">Liste des réponses</h1>
 
         <table class="edit-table w-full mb-6">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Content</th>
-                    <th>actions</th>
+                    {# <th>Id</th> #}
+                    <th class="text-dark">Réponses</th>
+                    <th class="text-dark">Action</th>
                 </tr>
             </thead>
             <tbody>
             {% for answer in answers %}
                 <tr>
-                    <td>{{ answer.id }}</td>
-                    <td>{{ answer.content }}</td>
+                    {# <td>{{ answer.id }}</td> #}
+                    <td class="text-dark">{{ answer.content }}</td>
                     <td>
-                        <a class="md-btn" href="{{ path('answer_show', {'id': answer.id}) }}">show</a>
-                        <a class="md-btn" href="{{ path('answer_edit', {'id': answer.id}) }}">edit</a>
+                        <a class="md-btn btnAction text-dark" href="{{ path('answer_show', {'id': answer.id}) }}"><i class="fas fa-eye iconAction"></i></a>
+                        <a class="md-btn btnAction text-dark" href="{{ path('answer_edit', {'id': answer.id}) }}"><i class="fas fa-edit iconAction"></i></a>
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="4">no records found</td>
+                    <td colspan="4">Aucune réponse trouvé</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-
-        <a class="md-btn" href="{{ path('answer_new') }}">Create new</a>
     </div>
 {% endblock %}
