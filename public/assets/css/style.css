@@ -263,3 +263,14 @@ div.answer-msg div.answer-msg-smiley{
     transform: translate(50%, -50%);
     right: 0;
 }
+
+button:disabled{
+    border: 1px solid #999999;
+    background-color: #dcdcdc;
+    color: #666666;
+    cursor: not-allowed;
+}
+
+button:disabled:after {
+    all: initial;
+}

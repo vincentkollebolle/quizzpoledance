@@ -54,4 +54,12 @@ class QuestionRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function isGoodAnswer($answerId) {
+        return $this->createQueryBuilder('q')
+                ->andWhere('q.goodanswer = :answerId')
+                ->setParameter('answerId', $answerId)
+                ->getQuery()
+                ->getResult() != null;
+    }
 }
