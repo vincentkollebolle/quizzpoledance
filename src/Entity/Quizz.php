@@ -26,6 +26,13 @@ class Quizz
      */
     private $playername;
 
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Veuillez renseigner la difficulté du Quizz.")
+     */
+    public $difficulty;
+
     /**
      * @ORM\Column(type="integer")
      */
@@ -64,6 +71,18 @@ class Quizz
     public function setPlayername(string $playername): self
     {
         $this->playername = $playername;
+
+        return $this;
+    }
+
+    public function getDifficulty(): ?int
+    {
+        return $this->difficulty;
+    }
+
+    public function setDifficulty(int $difficulty): self
+    {
+        $this->difficulty = $difficulty;
 
         return $this;
     }

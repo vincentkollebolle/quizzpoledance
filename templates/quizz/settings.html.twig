@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Quizz Pole Dance{% endblock %}
+
+{% block body %}
+    <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
+
+    <img style="width:250px;" class="rounded-full my-3" src="{{ asset("img/logo.jpg")}}" alt="logo quizz pole dance" />
+    
+    <h1 class="text-lg my-4">Settings</h1>
+    <p class="text-center">
+    Nous avons pensé à vous. Et vous proposons de choisir vous même le quizz qui vous conviendra le mieux.
+    </p>
+    
+    <hr>
+
+    <div class="flex flex-col items-center mt-5">
+
+        <ol>
+            <li>
+                <div>
+
+                <label for="debutant">Debutant (15 questions)</label>
+                </div>
+            </li>
+            <li>
+                <div>
+
+                <label for="intermediaire">Intermediaire (25 questions)</label>
+                </div>
+            </li>
+            <li>
+                <div>
+                <label for="avance">Avancé (50 questions)</label>
+                </div>
+            </li>
+        </ol>
+
+        {{ form_start(form) }}
+            <div class="w-full flex flex-col items-center mt-5">
+            <div class="md-input mb-5" >
+                {{ form_widget(form.difficulty) }}
+                {{ form_label(form.difficulty) }}
+            </div>
+            {{ form_widget(form.start, {'attr': {'class':'md-btn'}}) }}
+            </div>
+        {{ form_end(form) }}
+
+    
+    </div>
+
+
+    </div>
+{% endblock %}

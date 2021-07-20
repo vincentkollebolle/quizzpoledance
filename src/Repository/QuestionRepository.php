@@ -21,7 +21,13 @@ class QuestionRepository extends ServiceEntityRepository
 
     public function findAll() {
         return $this->createQueryBuilder('question')
-        ->setMaxResults(25)
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function findAccording2Difficulty($difficulty) {
+        return $this->createQueryBuilder('question')
+        ->setMaxResults($difficulty)
         ->getQuery()
         ->getResult();
     }

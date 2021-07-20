@@ -15,6 +15,8 @@ use App\Entity\Playeranswer;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\Form\DifficultyType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 use App\Repository\QuestionRepository;
 use App\Repository\AnswerRepository;
@@ -51,12 +53,13 @@ class QuizzController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $quizz = $form->getData();
+            $quizz->difficulty = 15;
             $quizz->setDate(new DateTime('now'));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($quizz);
             $entityManager->flush();
-
-            return $this->redirectToRoute('quizz_nextquestion', array('id' => $quizz->getId()));
+            return $this->redirectToRoute('quizz_settings', array('id' => $quizz->getId() ));
+            // return $this->redirectToRoute('quizz_nextquestion', array('id' => $quizz->getId()));
         }
 
         return $this->render(
@@ -152,7 +155,7 @@ class QuizzController extends AbstractController
         Question $question
     ) {
         $repository = $this->getDoctrine()->getRepository(Question::class);
-        $questions = $repository->findAll();
+        $questions = $repository->findAccording2Difficulty($quizz->difficulty);
 
         $repository = $this->getDoctrine()->getRepository(Playeranswer::class);
         $playeranswers = $repository->findByQuizz($quizz);
@@ -181,7 +184,7 @@ class QuizzController extends AbstractController
         $bonus
     ) {
         $repository = $this->getDoctrine()->getRepository(Question::class);
-        $questions = $repository->findAll();
+        $questions = $repository->findAccording2Difficulty($quizz->difficulty);
 
         return $this->render(
             'quizz/quizzanswer.html.twig',
@@ -195,6 +198,43 @@ class QuizzController extends AbstractController
     }
 
     /**
+    * @Route("/quizz/{id}/settings", name="quizz_settings")
+    */  
+    public function quizzSettings(Quizz $quizz, Request $request)
+    {
+        $form = $this->createFormBuilder($quizz)
+        ->add('difficulty', ChoiceType::class, [
+            'choices'  => [
+                'Débutant' => 15,
+                'Intermédiaire' => 25,
+                'Avancé' => 50,
+            ],
+        ])
+        ->add('start', SubmitType::class, ['label' => 'Démarrer le Quizz'])
+        ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid() ) {
+            echo $quizz->difficulty;
+            $quizz = $form->getData();
+            $quizz->setDate(new DateTime('now'));
+            // $quizz->setDifficulty( $quizz->difficulty )
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($quizz);
+            $entityManager->flush();
+            // return $this->redirectToRoute('quizz_settings', array('id' => $quizz->getId() ));
+            return $this->redirectToRoute('quizz_nextquestion', array('id' => $quizz->getId()));
+        }
+
+        return $this->render(
+            'quizz/settings.html.twig',
+            [
+                'form' => $form->createView(),
+                'quizz' => $quizz
+            ]);
+    }
+
+    /**
      * @Route("/quizz/{id}/nextquestion", name="quizz_nextquestion")
      */
     public function quizzNextQuestion(Quizz $quizz)
@@ -202,7 +242,7 @@ class QuizzController extends AbstractController
         //get unanswered questions
         //toutes les questions qui ne sont pas dans l'history du player
         $repository = $this->getDoctrine()->getRepository(Question::class);
-        $questions = $repository->findAll();
+        $questions = $repository->findAccording2Difficulty($quizz->difficulty);
 
         $repository = $this->getDoctrine()->getRepository(Playeranswer::class);
         $playeranswers = $repository->findByQuizz($quizz);
