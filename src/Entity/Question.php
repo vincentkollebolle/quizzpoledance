@@ -66,11 +66,10 @@ class Question
     {
         return $this->mediaurl;
     }
-
+    
     public function setMediaurl(?string $mediaurl): self
     {
         $this->mediaurl = $mediaurl;
-
         return $this;
     }
 

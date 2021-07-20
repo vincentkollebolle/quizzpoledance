@@ -157,6 +157,7 @@ class QuizzController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Playeranswer::class);
         $playeranswers = $repository->findByQuizz($quizz);
 
+        
         return $this->render(
             'quizz/quizzquestion.html.twig',
             [
