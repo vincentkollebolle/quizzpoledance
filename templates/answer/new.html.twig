@@ -4,10 +4,9 @@
 
 {% block body %}
 <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
-    <h1>Create new Answer</h1>
+    <h1>Ajout d'une réponse</h1>
 
     {{ include('answer/_form.html.twig') }}
 
-    <a class="md-btn" href="{{ path('answer_index') }}">back to list</a>
 </div>
 {% endblock %}

@@ -1,28 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Answer{% endblock %}
+{% block title %}Réponse{% endblock %}
 
 {% block body %}
 <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
-    <h1>Answer</h1>
+    <h1>Réponse</h1>
 
     <table class="edit-table w-full mb-6">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ answer.id }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ answer.content }}</td>
+                <th><h2>Contenu :&nbsp;</h2></th>
+                <td><h3> {{ answer.content }}</h3></td>
             </tr>
            
         </tbody>
     </table>
 
-    <a href="{{ path('answer_index') }}">back to list</a>
+    {# <a class="md-btn" href="{{ path('answer_index') }}"><button type="button" class="btn btn-light">Retour à la liste</button></a>
 
-    <a href="{{ path('answer_edit', {'id': answer.id}) }}">edit</a>
+    <a class="md-btn" href="{{ path('answer_edit', {'id': answer.id}) }}"><button type="button" class="btn btn-light">Modifier</button></a> #}
 
     {{ include('answer/_delete_form.html.twig') }}
 </div>
