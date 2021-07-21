@@ -8,6 +8,9 @@
     {% else %}
         <button class="md-btn">Delete</button>
     {% endif %}
+    <a class="md-btn" href="{{ path('answer_index') }}"><button type="button" class="btn btn-light">Retour à la liste</button></a>
+    <a class="md-btn" href="{{ path('answer_edit', {'id': answer.id}) }}"><button type="button" class="btn btn-light">Modifier</button></a>
+    <button class="md-btn btn btn-danger">Supprimer</button>
 </form>
 
 

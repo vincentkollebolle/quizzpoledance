@@ -2,8 +2,10 @@
 <div class="w-full flex flex-col items-center my-5">
     <div class="md-input mb-5">
         {{ form_widget(form.content) }}
-        {{ form_label(form.content) }}
+        {# {{ form_label(form.content) }} #}
     </div>
-    <button class="md-btn">{{ button_label|default('Save') }}</button>
+    <button class="md-btn btn btn-light">{{ button_label|default('Enregistrer') }}</button>
+    <a class="md-btn" href="{{ path('answer_index') }}"><button type="button" class="btn btn-light">Retour à la liste</button></a>
+
 </div>
 {{ form_end(form) }}

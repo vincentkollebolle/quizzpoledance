@@ -11,11 +11,6 @@
 
     <h2 class="my-4">Quel est le nom de cette figure ? </h2>
 
-    <div class="mb-5">
-        <a class="md-btn" href="{{ path('question_index') }}">back to list</a>
-    </div>
-
-    <a class="md-btn" href="{{ path('question_edit', {'id': question.id}) }}">edit</a>
 
     {{ include('question/_delete_form.html.twig') }}
 </div>
