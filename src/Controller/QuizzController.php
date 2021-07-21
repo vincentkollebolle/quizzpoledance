@@ -159,7 +159,7 @@ class QuizzController extends AbstractController
     public function quizzQuestion(
         Request $request,
         Quizz $quizz,
-        $slug,
+        $slug
     ) {
         // ISSUE #91: non usage du param converter pour $question voir : https://github.com/vincentkollebolle/quizzpoledance/issues/91
         $questionRepository = $this->getDoctrine()->getRepository(Question::class);
