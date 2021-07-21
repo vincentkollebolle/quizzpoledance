@@ -1,15 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Question{% endblock %}
+{% block title %}Modification question{% endblock %}
 
 {% block body %}
 <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
-    <h1>Edit Question</h1>
+    <h1>Modification question</h1>
 
-    {{ include('question/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('question/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a class="md-btn" href="{{ path('question_index') }}">back to list</a>
 
-    {{ include('question/_delete_form.html.twig') }}
+    {# {{ include('question/_delete_form.html.twig') }} #}
 </div>
 {% endblock %}

@@ -1,25 +1,27 @@
 {{ form_start(formquestion) }}
     <div class="w-full flex flex-col items-center my-5">
         <div class="md-input mb-5">
+        <h5>Titre :</h5>
             {{ form_widget(formquestion.title) }}
-            {{ form_label(formquestion.title) }}
         </div>
         <div class="md-input mb-5">
+            <h5>Contenu :</h5>
             {{ form_widget(formquestion.content) }}
-            {{ form_label(formquestion.content) }}
+            
         </div>
         <div class="md-input mb-5">
             {{ form_widget(formquestion.upload_file) }}
             {{ form_label(formquestion.upload_file) }}
         </div>
         <div class="md-input mb-5">
+            <h5>Bonne réponse :</h5>
             {{ form_widget(formquestion.goodanswer) }}
-            {{ form_label(formquestion.goodanswer) }}
         </div>
         <div class="md-checkboxes mb-5">
             {{ form_widget(formquestion.answers) }}
         </div>
 
-        <button class="md-btn">{{ button_label|default('Save') }}</button>
+        <button class="md-btn btn btn-light">{{ button_label|default('Sauvegarder') }}</button>
+        <a class="md-btn" href="{{ path('question_index') }}"><button type="button" class="btn btn-light">Retour à la liste</button></a>
     </div>
 {{ form_end(formquestion) }}
