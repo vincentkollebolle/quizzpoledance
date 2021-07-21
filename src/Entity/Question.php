@@ -9,12 +9,21 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Gedmo\Mapping\Annotation as Gedmo;
+
 /**
  * @ORM\Entity(repositoryClass=QuestionRepository::class)
  * @ApiResource()
  */
 class Question
 {
+    /**
+     * @var string
+     * @Gedmo\Slug(fields={"title"})
+     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
+     */
+    private $slug;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -56,17 +65,22 @@ class Question
     {
         $this->answers = new ArrayCollection();
     }
-  
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
-    
+
     public function getMediaurl(): ?string
     {
         return $this->mediaurl;
     }
-    
+
     public function setMediaurl(?string $mediaurl): self
     {
         $this->mediaurl = $mediaurl;
@@ -85,7 +99,8 @@ class Question
         return $this;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->content;
     }
 

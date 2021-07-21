@@ -46,7 +46,7 @@ class QuizzController extends AbstractController
         $quizz->setScore(0);
         $quizz->setCombo(1);
         $quizz->difficulty = 15;
-        
+
         $form = $this->createFormBuilder($quizz)
             ->add('playername', TextType::class, ['attr' => array('placeholder' => 'Pseudonyme')])
             ->add('start', SubmitType::class, ['label' => 'Démarrer le Quizz'])
@@ -60,7 +60,7 @@ class QuizzController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($quizz);
             $entityManager->flush();
-            return $this->redirectToRoute('quizz_settings', array('id' => $quizz->getId() ));
+            return $this->redirectToRoute('quizz_settings', array('id' => $quizz->getId()));
             // return $this->redirectToRoute('quizz_nextquestion', array('id' => $quizz->getId()));
         }
 
@@ -98,7 +98,7 @@ class QuizzController extends AbstractController
     ): Response {
 
         $playeranswerRepository = $this->getDoctrine()->getRepository(Playeranswer::class);
-        if($playeranswerRepository->questionAlreadyAnswered($quizz->getId(),$question->getId())){
+        if ($playeranswerRepository->questionAlreadyAnswered($quizz->getId(), $question->getId())) {
             return $this->quizzNextQuestion($quizz);
         }
 
@@ -153,16 +153,20 @@ class QuizzController extends AbstractController
     }
 
     /**
-     * @Route("/quizz/{id}/question/{question_id}", name="quizz_question")
-     * @Entity("question", expr="repository.find(question_id)")
+     * @Route("/quizz/{id}/question/{slug}", name="quizz_question")
+     * @Entity("quizz", expr="repository.find(id)")
      */
     public function quizzQuestion(
         Request $request,
         Quizz $quizz,
-        Question $question
+        $slug,
     ) {
+        // ISSUE #91: non usage du param converter pour $question voir : https://github.com/vincentkollebolle/quizzpoledance/issues/91
+        $questionRepository = $this->getDoctrine()->getRepository(Question::class);
+        $question = $questionRepository->findOneBySlug($slug);
+
         $playeranswerRepository = $this->getDoctrine()->getRepository(Playeranswer::class);
-        if($playeranswerRepository->questionAlreadyAnswered($quizz->getId(),$question->getId())){
+        if ($playeranswerRepository->questionAlreadyAnswered($quizz->getId(), $question->getId())) {
             return $this->quizzNextQuestion($quizz);
         }
 
@@ -176,7 +180,7 @@ class QuizzController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Playeranswer::class);
         $playeranswers = $repository->findByQuizz($quizz);
 
-        
+
         return $this->render(
             'quizz/quizzquestion.html.twig',
             [
@@ -215,23 +219,23 @@ class QuizzController extends AbstractController
     }
 
     /**
-    * @Route("/quizz/{id}/settings", name="quizz_settings")
-    */  
+     * @Route("/quizz/{id}/settings", name="quizz_settings")
+     */
     public function quizzSettings(Quizz $quizz, Request $request)
     {
         $form = $this->createFormBuilder($quizz)
-        ->add('difficulty', ChoiceType::class, [
-            'choices'  => [
-                'Débutant' => 15,
-                'Intermédiaire' => 25,
-                'Avancé' => 50,
-            ],
-        ])
-        ->add('start', SubmitType::class, ['label' => 'Démarrer le Quizz'])
-        ->getForm();
+            ->add('difficulty', ChoiceType::class, [
+                'choices'  => [
+                    'Débutant' => 15,
+                    'Intermédiaire' => 25,
+                    'Avancé' => 50,
+                ],
+            ])
+            ->add('start', SubmitType::class, ['label' => 'Démarrer le Quizz'])
+            ->getForm();
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid() ) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $quizz = $form->getData();
             $quizz->setDate(new DateTime('now'));
             // $quizz->setDifficulty( $quizz->difficulty )
@@ -247,7 +251,8 @@ class QuizzController extends AbstractController
             [
                 'form' => $form->createView(),
                 'quizz' => $quizz
-            ]);
+            ]
+        );
     }
 
     /**
@@ -266,13 +271,13 @@ class QuizzController extends AbstractController
         //on construit un tableau d'id des question auxquelles il a déjà été répondu.
         $arrayAnsweredQuestion = [];
         foreach ($playeranswers as $playeranswer) {
-            $arrayAnsweredQuestion[] =  $playeranswer->getQuestion()->getId();
+            $arrayAnsweredQuestion[] =  $playeranswer->getQuestion()->getSlug();
         }
 
         //on construit un tableau des questions qu'il reste à poser
         $arrayQuestion2ask = [];
         foreach ($questions as $question) {
-            if (!in_array($question->getID(), $arrayAnsweredQuestion)) {
+            if (!in_array($question->getSlug(), $arrayAnsweredQuestion)) {
                 $arrayQuestion2ask[] = $question;
             }
         }
@@ -283,7 +288,7 @@ class QuizzController extends AbstractController
                 'quizz_question',
                 array(
                     'id' => $quizz->getId(),
-                    'question_id' => $arrayQuestion2ask[0]->getId()
+                    'slug' => $arrayQuestion2ask[0]->getSlug()
                 )
             );
         } else {
