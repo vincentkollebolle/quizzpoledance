@@ -64,3 +64,17 @@ symfony server:start
 Version API 
 ====
 L'url /apiplateform permet d'accéder à la documentation de la version API-Rest du projet.
+
+Utilisation Watermark 
+===
+Afin de personnaliser les images dans le projet, LiipImagineBundle a été intégré au projet.
+```
+# config/packages/liip_imagine.yaml
+  watermark_image:
+    # path de l'image du copyright
+    image: public\assets\copyright.png
+    # taille de l'image copyright
+    size: 0.050
+    #position
+    position: bottomleft
+```
