@@ -3,35 +3,39 @@
 {% block title %}Question index{% endblock %}
 
 {% block body %}
-<div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
+<div style="background-color:white;border:thick double black;" class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-black">
+    
+    <center>
     <h1 class="my-2">Question index</h1>
-
-    <table class="edit-table w-full mb-6">
+    </center>
+<hr>
+<center>
+    <table border="1" cellspacing="1" style="width:100%" align="center" charset="UTF-8" class="edit-table w-full mb-6">
         <thead>
-            <tr>
-                <th>Question</th>
-                <th>Intitulé</th>
-                <th>Propositions</th>
-                <th>Réponse</th>
-                <th>Actions</th>
+            <tr style="vertical-align: middle; text-align: center; color:#FFFFFF; height:50px;">
+                <th style="background-color:#c10202;width:100px;position:sticky;top:0;border-spacing: 5px;border-collapse : separate;"border-color:red;> Question</th>
+                <th style="background-color:#c10202;width:100px;position:sticky;top:0;border-spacing: 5px;border-collapse : separate;"border-color:red;> Intitulé</th>
+                <th style="background-color:#c10202;width:100px;position:sticky;top:0;border-spacing: 5px;border-collapse : separate;"border-color:red;> Propositions</th>
+                <th style="background-color:#c10202;width:100px;position:sticky;top:0;border-spacing: 5px;border-collapse : separate;"border-color:red;> Réponse</th>
+                <th style="background-color:#c10202;width:100px;position:sticky;top:0;border-spacing: 5px;border-collapse : separate;"border-color:red;> Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for question in questions %}
             <tr>
-                <td>[{{ question.id }}] Figure {{question.title}}</td>
-                <td>{{ question.content}} </td>
-                <td>
+                <td style="text-align:center;border-spacing: 5px;border-collapse : separate;border:1px solid black;">[{{ question.id }}] Figure {{question.title}}</td>
+                <td style="text-align:center;border-spacing: 5px;border-collapse : separate;border:1px solid black;">{{ question.content}} </td>
+                <td style="text-align:center;border-spacing: 5px;border-collapse : separate;border:1px solid black;">
                     {% for answer in question.answers %}
-                       <span class="inline-block badge badge-pill py-0 px-2 border rounded-full m-0.5">{{ answer.content }}</span>
+                       <span class="" style="color:black; text-align:center" inline-block badge badge-pill py-0 px-2 border rounded-full m-0.5">{{ answer.content }}</span>
                     {% endfor %}
                 </td>
-                <td>
+                <td style="text-align:center;border-spacing: 5px;border-collapse : separate;border:1px solid black;">
                     {{question.goodanswer.content}}
                 </td>
-                <td>                    
-                    <a class="md-btn" href="{{ path('question_show', {'id': question.id}) }}">show</a>
-                    <a class="md-btn" href="{{ path('question_edit', {'id': question.id}) }}">edit</a>
+                <td style="text-align:center;border-spacing: 5px;border-collapse : separate;border:1px solid black;">                    
+                    <a class="md-btn" href="{{ path('question_show', {'id': question.id}) }}">Afficher</a>
+                    <a class="md-btn" href="{{ path('question_edit', {'id': question.id}) }}">Editer</a>
                 </td>
             </tr>
         {% else %}
@@ -41,7 +45,9 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a class="md-btn" href="{{ path('question_new') }}">Create new</a>
+</center>
+<br>
+    <a class="md-btn" href="{{ path('question_new') }}">Crée une nouvelle question </a>
 </div>
+<br>
 {% endblock %}

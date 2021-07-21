@@ -5,16 +5,15 @@
 {% block stylesheets %}<link rel="stylesheet" href="{{ asset('public\assets\css\index.css')}}">{% endblock %}
 
 {% block body %}
-    <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
+    <div style="background-color:white; border:thick double black;" class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
 
     <div class="btnNewResponse">
         <div class="d-grid gap-2 col-12 ml-5">    
-            <a href="{{ path('answer_new') }}"><button class="btn btn-dark text-light" type="button" >Ajouter une réponse</button></a>
+            <a href="{{ path('answer_new') }}"><button style="position:absolute;left:75%;top:41%;" class="btn btn-dark text-light" type="button" >Ajouter une réponse</button></a>
         </div>
     </div>   
-        <h1 class="text-dark">Liste des réponses</h1>
-
-        <table class="edit-table w-full mb-6">
+        <h1 class="text-dark">Liste des réponses <hr></h1>
+        <table border="1" cellspacing="1" style="width:100%" align="center" charset="UTF-8" class="edit-table w-full mb-6">
             <thead>
                 <tr>
                     {# <th>Id</th> #}
@@ -40,4 +39,5 @@
             </tbody>
         </table>
     </div>
+    <br>
 {% endblock %}
