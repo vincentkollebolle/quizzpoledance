@@ -15,3 +15,49 @@ margin-left: 500px;
     margin-left: 65px;
 }
 
+button:disabled {
+    pointer-events: initial !important;
+    cursor: not-allowed;
+}
+
+.classement{
+    display: flex;
+    justify-content: center;
+}
+
+.table-responsive {
+  margin: auto;
+}
+
+@media screen and (max-width: 400px)
+{
+    .navbar-brand{
+        margin-left: 70px;
+    }
+
+    #navbarSupportedContent{
+        margin-left: 80px;
+    }
+
+    .btnNav {
+        display: flex;
+        margin-left: 0;
+    }
+
+    .navbar-dark .navbar-toggler{
+        margin-right:48px;
+    }
+
+    .btnConnection {
+        margin-left: 0;
+    }
+
+    body {
+        background-image: url("../../img/bg_pole_dance_mobile.png");
+        }
+
+    .classement{
+        margin-left: 60px;
+    }
+
+}

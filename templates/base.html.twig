@@ -31,7 +31,7 @@
     <div class="container mx-auto">
       <div class="flex align-center justify-between mt-5 p-3 text-white rounded-lg">
         {% if is_granted('ROLE_ADMIN') %}
-            <div class="alert alert-success alert-dismissible fade show w-50" role="alert">
+            <div class="alert alert-success alert-dismissible fade show w-100" role="alert">
               <i class="fas fa-check-circle"></i> Vous êtes connecté en tant que {{ app.user.username }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>

@@ -7,7 +7,7 @@
 
     <img style="width:250px;" class="rounded-full my-3" src="{{ asset("img/logo.jpg")}}" alt="logo quizz pole dance" />
     
-    <h1 class="text-lg my-4">Settings</h1>
+    <h1 class="text-lg text-center my-4">Quizz</h1>
     <p class="text-center">
     Nous avons pensé à vous. Et vous proposons de choisir vous même le quizz qui vous conviendra le mieux.
     </p>
@@ -39,10 +39,10 @@
         {{ form_start(form) }}
             <div class="w-full flex flex-col items-center mt-5">
             <div class="md-input mb-5" >
+                <h5>Difficulté : </h5>
                 {{ form_widget(form.difficulty) }}
-                {{ form_label(form.difficulty) }}
             </div>
-            {{ form_widget(form.start, {'attr': {'class':'md-btn btn btn-secondary col-2'}}) }}
+            {{ form_widget(form.start, {'attr': {'class':'md-btn btn btn-secondary col-lg-2 col-sm-12'}}) }}
             </div>
         {{ form_end(form) }}
 
