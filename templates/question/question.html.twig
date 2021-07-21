@@ -1,12 +1,12 @@
 
-<div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 mt-5 text-white">
+<div class="flex items-center flex-col p-5 text-white">
     <img class="rounded-lg mb-5" width="300" src="{{question.mediaurl | imagine_filter('my_background_filter')}}" alt="Card image cap">
     <h5 class="text-lg mb-3">{{question.content}}</h5>
-    <div class="mb-6 w-full" style="max-width: 300px;">
+    <div class="mb-6" style="max-width: 50rem;">
         {% for answer in question.answers %}
             <a 
                 href="{{ path('validate', {"quizz_id":quizz.id, "question_id":question.id, "answer_id":answer.id}) }}" 
-                class="block my-2 md-btn text-center w-full">
+                class="btn btn-secondary col-4 mb-2" style="max-width: 300px">
                 {{answer.content}}
             </a>
         {% endfor %}

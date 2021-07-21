@@ -1,6 +1,6 @@
 
 <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 mt-5 text-white relative">
-    <img class="rounded-lg mb-5" width="300" src="{{playeranswer.question.mediaurl}}" alt="Card image cap">
+    <img class="rounded-lg mb-5" width="300" src="{{playeranswer.question.mediaurl | imagine_filter('my_background_filter')}}" alt="Card image cap">
     <div class="answer-msg">
         {% if playeranswer.status == "yes" %}
             Trop fort.e ! {% if bonus > 100 %}COMBO x{{ bonus / 100 }}{% endif %}: +{{bonus}} points! {% if bonus > 100 %} {% endif %}
@@ -26,7 +26,7 @@
             </div>
         {% endfor %}
     </div>
-    <a href="{{ path("quizz_nextquestion", { id: playeranswer.quizz.id }) }}" class="md-btn" tabindex="-1">
+    <a href="{{ path("quizz_nextquestion", { id: playeranswer.quizz.id }) }}" class="btn btn-secondary col-4" style="width:inherit"tabindex="-1">
         Question suivante
     </a>
 </div>
