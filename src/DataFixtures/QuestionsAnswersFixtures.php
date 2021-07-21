@@ -29,7 +29,17 @@ class QuestionsAnswersFixtures extends Fixture
                 $question = new Question();
                 $question->setTitle($content);
                 $question->setContent('Quel est le nom de cette figure?');
-                $question->setMediaurl($img);
+                $content_img = file_get_contents($img);
+                
+                //Store in the filesystem.
+                if (!file_exists('public/uploads/')) {
+                    mkdir('public/uploads/');
+                }
+                $fp = fopen("public/uploads/".basename(parse_url($img, PHP_URL_PATH)), "w");
+                fwrite($fp, $content_img);
+                fclose($fp);
+
+                $question->setMediaurl("/uploads/".basename(parse_url($img, PHP_URL_PATH)));
                 $answer = new Answer;
                 $answer->setContent($content);
                 $manager->persist($answer);
