@@ -4,11 +4,17 @@
 {% block body %}
 <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 text-white">
 
-    <h1>Page Inaccessible</h1>
+        <h1 style="text-align:center; font-size:1.5rem;">
+           Cette page n'est pas accessible 
+        </h1>
 
     <p style="text-align:center">
         La page demandée n'a pas pu être localisée. 
-        <button class="w-full items-center"><a class="md-btn w-full flex flex-col items-center mt-5" href="{{path('quizz')}}">Retourner sur l'accueil</a></button>
     </p>
+
+    <div class="d-flex justify-content-center">
+        <a  href="{{path('quizz')}}"><button type="button" class="btn btn-light">Retourner sur l'accueil</button></a>
+    </div>
+
 </div>
 {% endblock %}
