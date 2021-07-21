@@ -45,7 +45,8 @@ class QuizzController extends AbstractController
         $quizz = new Quizz();
         $quizz->setScore(0);
         $quizz->setCombo(1);
-
+        $quizz->difficulty = 15;
+        
         $form = $this->createFormBuilder($quizz)
             ->add('playername', TextType::class, ['attr' => array('placeholder' => 'Pseudonyme')])
             ->add('start', SubmitType::class, ['label' => 'Démarrer le Quizz'])
@@ -54,7 +55,7 @@ class QuizzController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $quizz = $form->getData();
-            $quizz->difficulty = 15;
+
             $quizz->setDate(new DateTime('now'));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($quizz);
@@ -231,7 +232,6 @@ class QuizzController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid() ) {
-            echo $quizz->difficulty;
             $quizz = $form->getData();
             $quizz->setDate(new DateTime('now'));
             // $quizz->setDifficulty( $quizz->difficulty )
