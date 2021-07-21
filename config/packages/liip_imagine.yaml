@@ -14,13 +14,13 @@ liip_imagine:
                 watermark_image:
 
                     # path to the watermark file (prepended with "%kernel.project_dir%")
-                    image: public\assets\watermark.png
+                    image: public\assets\copyright.png
 
                     # size of the water mark relative to the input image
-                    size: 1
+                    size: 0.050
 
                     # set the position of the watermark
-                    position: center               
+                    position: bottomleft               
         # name our filter set "my_watermark_filter"
         # my_watermark_filter:
         #     filters:
