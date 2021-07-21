@@ -5,6 +5,9 @@
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
+/public/uploads/
+/public/media/my_background_filter/
+/public/media/cache/
 /var/
 /vendor/
 .idea
