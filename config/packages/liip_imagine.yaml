@@ -8,18 +8,17 @@ liip_imagine:
                     
     # valid drivers options include "gd" or "gmagick" or "imagick"
     filter_sets:
+        # nom du filtre
         my_background_filter:
+            # réduit de 50% la qualité de l'image
             quality: 50
             filters:
                 watermark_image:
-
-                    # path to the watermark file (prepended with "%kernel.project_dir%")
+                    # path de l'image du copyright
                     image: public\assets\copyright.png
-
-                    # size of the water mark relative to the input image
+                    # taille de l'image
                     size: 0.050
-
-                    # set the position of the watermark
+                    #position
                     position: bottomleft               
         # name our filter set "my_watermark_filter"
         # my_watermark_filter:
