@@ -9,11 +9,11 @@
             &#128513;
     </div>
      <h1 class="text-lg my-4">Bravo !</h1>
-      <p class="text-center">
+      <p class="text-lg">
         Vous êtes arrivé au bout de ce quizz !
       </p>
       <h1 class="text-lg my-4">Votre score est de {{quizz.score}} points !</h1> 
-      <a href="{{ path("quizz_history") }}" style="color:blue;text-decoration:underline">Voir le classement </a>
+      <a href="{{ path("quizz_history") }}" class="btn btn-secondary col-2 mb-2">Voir le classement </a>
     
     </div>
 {% endblock %}
