@@ -15,7 +15,7 @@ liip_imagine:
             filters:
                 watermark_image:
                     # path de l'image du copyright
-                    image: public\assets\copyright.png
+                    image: public/assets/copyright.png
                     # taille de l'image
                     size: 0.050
                     #position
