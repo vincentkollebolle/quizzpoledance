@@ -179,10 +179,6 @@ class QuizzController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Question::class);
         $questions = $repository->findAccording2Difficulty($quizz->difficulty);
 
-        //Action qui permet de rendre l'apparation des questions aléatoire.
-        // shuffle($questions);
-        // foreach ($questions as $question);
-
         $repository = $this->getDoctrine()->getRepository(Playeranswer::class);
         $playeranswers = $repository->findByQuizz($quizz);
 
@@ -282,6 +278,7 @@ class QuizzController extends AbstractController
 
         //on construit un tableau des questions qu'il reste à poser
         $arrayQuestion2ask = [];
+        //Action qui permet de rendre l'apparation des questions aléatoire.
         shuffle($questions);
         foreach ($questions as $question) {
             if (!in_array($question->getSlug(), $arrayAnsweredQuestion)) {
