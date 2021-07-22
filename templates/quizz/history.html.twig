@@ -3,61 +3,63 @@
 {% block title %}Classement {% if playername is defined %}of {{ playername }}{% endif %}{% endblock %}
 
 {% block body %}
-<div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-3 text-white">
-    <h1 class="my-2 classement">Classement {% if playername is defined %}of {{ playername }}{% endif %}</h1>
-
-    <table class="table-responsive table-responsive-xl text-white">
-        <thead>
-            <tr>
-            {% if app.user and is_granted('ROLE_ADMIN') %}
-                <th>ID</th>
-            {% endif %}
-                <th>Rang</th>
-                <th>Pseudo</th>
-                <th>Niveau</th>
-                <th>Score</th>
-                <th>Date passage</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% set rang = 1 %}
-        {% for quizz in quizzs %}
-            <tr>
-            {% if app.user and is_granted('ROLE_ADMIN') %}
-                <td>{{ quizz.id }}</td>
-            {% endif %}
-                <td>
-                    {% if rang == 1 %}<i class="fas fa-trophy text-yellow-400"></i>{% else %}{{rang}}{% endif %}
-                    {% set rang = rang + 1 %}
-                </td>
-                <td>{{ quizz.playername}} </td>
-                <td>
-                    {% if quizz.score < 500 %}
-                        <span class="m-1 border rounded-full px-2">Novice</span>
-                    {# Conditions de succès modulable #}
-                    {% elseif quizz.score  < 2000 %}
-                        <span class="m-1 border rounded-full px-2">Apprenti</span>
-                    {% elseif quizz.score  < 4000 %}
-                        <span class="m-1 border rounded-full px-2">Adepte</span>
-                    {% elseif quizz.score  < 8000 %}
-                        <span class="m-1 border rounded-full px-2">Expert</span>
-                    {% else %}
-                        <span class="m-1 border rounded-full px-2">Maître  <i class="fas fa-medal"></i></span>
+    <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-3 text-white">
+        <h1 class="my-2 classement">Classement {% if playername is defined %}of {{ playername }}{% endif %}</h1>
+        <div class="table-responsive table-responsive-sm">
+            <table class="table text-white">
+                <thead>
+                <tr>
+                    {% if app.user and is_granted('ROLE_ADMIN') %}
+                        <th>ID</th>
                     {% endif %}
-                </td>
-                <td>{{ quizz.score }}</td>
-                <td>{% if quizz.date is not null %} {{ quizz.date|date("d/m/Y") }} {% else %} --- {% endif %}</td>
-            </tr>
-        {% else %}
-            <tr>
-            {% if app.user and is_granted('ROLE_ADMIN') %}
-                <td colspan="6">no records found</td>
-            {% else %}
-                <td colspan="5">no records found</td>
-            {% endif %}
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
+                    <th>Rang</th>
+                    <th>Pseudo</th>
+                    <th>Niveau</th>
+                    <th>Score</th>
+                    <th>Date passage</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set rang = 1 %}
+                {% for quizz in quizzs %}
+                    <tr>
+                        {% if app.user and is_granted('ROLE_ADMIN') %}
+                            <td>{{ quizz.id }}</td>
+                        {% endif %}
+                        <td>
+                            {% if rang == 1 %}<i
+                                    class="fas fa-trophy text-yellow-400"></i>{% else %}{{ rang }}{% endif %}
+                            {% set rang = rang + 1 %}
+                        </td>
+                        <td>{{ quizz.playername }} </td>
+                        <td>
+                            {% if quizz.score < 500 %}
+                                <span class="m-1 border rounded-full px-2">Novice</span>
+                                {# Conditions de succès modulable #}
+                            {% elseif quizz.score  < 2000 %}
+                                <span class="m-1 border rounded-full px-2">Apprenti</span>
+                            {% elseif quizz.score  < 4000 %}
+                                <span class="m-1 border rounded-full px-2">Adepte</span>
+                            {% elseif quizz.score  < 8000 %}
+                                <span class="m-1 border rounded-full px-2">Expert</span>
+                            {% else %}
+                                <span class="m-1 border rounded-full px-2">Maître  <i class="fas fa-medal"></i></span>
+                            {% endif %}
+                        </td>
+                        <td>{{ quizz.score }}</td>
+                        <td>{% if quizz.date is not null %} {{ quizz.date|date("d/m/Y") }} {% else %} --- {% endif %}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        {% if app.user and is_granted('ROLE_ADMIN') %}
+                            <td colspan="6">no records found</td>
+                        {% else %}
+                            <td colspan="5">no records found</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

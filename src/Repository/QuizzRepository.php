@@ -23,4 +23,13 @@ class QuizzRepository extends ServiceEntityRepository
     {
         return $this->findBy(array(), array('score' => 'DESC'));
     }
+
+
+    public function playernameAvailable($playername) {
+        return $this->createQueryBuilder('q')
+                ->andWhere('q.playername = :playername')
+                ->setParameter('playername', $playername)
+                ->getQuery()
+                ->getResult() == null;
+    }
 }

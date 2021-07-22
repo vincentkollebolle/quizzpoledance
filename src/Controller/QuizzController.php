@@ -53,21 +53,27 @@ class QuizzController extends AbstractController
             ->getForm();
 
         $form->handleRequest($request);
+        $error = null;
         if ($form->isSubmitted() && $form->isValid()) {
             $quizz = $form->getData();
 
-            $quizz->setDate(new DateTime('now'));
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($quizz);
-            $entityManager->flush();
-            return $this->redirectToRoute('quizz_settings', array('id' => $quizz->getId()));
-            // return $this->redirectToRoute('quizz_nextquestion', array('id' => $quizz->getId()));
+            $quizzRepository = $this->getDoctrine()->getRepository(Quizz::class);
+            if ($quizzRepository->playernameAvailable($quizz->getPlayername())) {
+                $quizz->setDate(new DateTime('now'));
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($quizz);
+                $entityManager->flush();
+                return $this->redirectToRoute('quizz_settings', array('id' => $quizz->getId()));
+                // return $this->redirectToRoute('quizz_nextquestion', array('id' => $quizz->getId()));1
+            }
+            $error = "Le nom d'utilisateur est déjà pris";
         }
 
         return $this->render(
             'quizz/quizz.html.twig',
             [
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'error' => $error,
             ]
         );
     }
@@ -173,10 +179,6 @@ class QuizzController extends AbstractController
         $repository = $this->getDoctrine()->getRepository(Question::class);
         $questions = $repository->findAccording2Difficulty($quizz->difficulty);
 
-        //Action qui permet de rendre l'apparation des questions aléatoire.
-        shuffle($questions);
-        foreach ($questions as $question);
-
         $repository = $this->getDoctrine()->getRepository(Playeranswer::class);
         $playeranswers = $repository->findByQuizz($quizz);
 
@@ -276,6 +278,8 @@ class QuizzController extends AbstractController
 
         //on construit un tableau des questions qu'il reste à poser
         $arrayQuestion2ask = [];
+        //Action qui permet de rendre l'apparation des questions aléatoire.
+        shuffle($questions);
         foreach ($questions as $question) {
             if (!in_array($question->getSlug(), $arrayAnsweredQuestion)) {
                 $arrayQuestion2ask[] = $question;
