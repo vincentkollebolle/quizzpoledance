@@ -29,6 +29,11 @@ button:disabled {
   margin: auto;
 }
 
+.question{
+    display: flex;
+    justify-content: center;
+}
+
 @media screen and (max-width: 400px)
 {
     .navbar-brand{
@@ -58,6 +63,10 @@ button:disabled {
 
     .classement{
         margin-left: 60px;
+    }
+
+    .img-fluid{
+        max-height: 280px;
     }
 
 }
