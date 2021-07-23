@@ -1,14 +1,23 @@
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('public\assets\css\index.css')}}">{% endblock %}
 
-<div class="flex items-center flex-col p-5 text-white">
-    <img class="rounded-lg mb-5" width="300" src="{{question.mediaurl | imagine_filter('my_background_filter')}}" alt="Card image cap">
-    <h5 class="text-lg mb-3">{{question.content}}</h5>
-    <div class="mb-6" style="max-width: 50rem;">
-        {% for answer in question.answers %}
-            <a 
-                href="{{ path('validate', {"quizz_id":quizz.id, "question_id":question.id, "answer_id":answer.id}) }}" 
-                class="btn btn-secondary col-4 mb-2" style="max-width: 300px">
-                {{answer.content}}
-            </a>
-        {% endfor %}
+<div class="question p-2 text-white">
+    <div class="card mb-3 mx-auto" style="max-width: 540px; background: rgba(0,0,0,0); border:none">
+    <div class="row g-0">
+        <div class="col-md-4">
+        <img src="{{question.mediaurl | imagine_filter('my_background_filter')}}" class="img-fluid rounded-start mt-2" alt="Card image cap">
+        </div>
+        <div class="col-md-8">
+        <div class="card-body">
+            <h5 class="card-title mx-auto">{{question.content}}</h5>
+                {% for answer in question.answers %}
+                    <a 
+                        href="{{ path('validate', {"quizz_id":quizz.id, "question_id":question.id, "answer_id":answer.id}) }}" 
+                        class="btn btn-secondary col-12 col-lg-12 mb-2" style="max-width: 300px">
+                        {{answer.content}}
+                    </a>
+                {% endfor %}            
+        </div>
+        </div>
+    </div>
     </div>
 </div>

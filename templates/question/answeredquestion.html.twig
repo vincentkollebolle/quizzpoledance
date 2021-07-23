@@ -1,5 +1,5 @@
 
-<div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 mt-5 text-white relative">
+{# <div class="flex items-center flex-col w-full rounded-lg bg-darkTransparent p-5 mt-5 text-white relative">
     <img class="rounded-lg mb-5" width="300" src="{{playeranswer.question.mediaurl | imagine_filter('my_background_filter')}}" alt="Card image cap">
     <div class="answer-msg">
         {% if playeranswer.status == "yes" %}
@@ -29,4 +29,42 @@
     <a href="{{ path("quizz_nextquestion", { id: playeranswer.quizz.id }) }}" class="btn btn-secondary col-4" style="width:inherit"tabindex="-1">
         Question suivante
     </a>
+</div> #}
+
+
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('public\assets\css\index.css')}}">{% endblock %}
+
+<div class="question p-2 text-white">
+    <div class="answer-msg text-center">
+        {% if playeranswer.status == "yes" %}
+            Trop fort(e) ! {% if bonus > 100 %}COMBO x{{ bonus / 100 }}{% endif %}: +{{bonus}} points! {% if bonus > 100 %} {% endif %} <span class="answer-msg-smiley">{{ playeranswer.status == "yes" ? "&#128513;" : "&#128529;" }}</span>
+        {% else %}
+            ah bah non c'est pas ça ! -50 points!
+        {% endif %}
+    <div class="card mb-3 mx-auto" style="max-width: 540px; background: rgba(0,0,0,0); border:none">
+    <div class="row g-0">
+        <div class="col-md-4">
+        <img src="{{playeranswer.question.mediaurl | imagine_filter('my_background_filter')}}" class="img-fluid rounded-start mt-2" alt="Card image cap">
+        </div>
+        <div class="col-md-8">
+        <div class="card-body">
+            <h5 class="card-title mx-auto">{{playeranswer.question.content}}</h5>
+                {% for answer in playeranswer.question.answers %}
+                    <div type="button" class="py-2 px-4 my-2 border border-gray-100 font-semibold rounded-lg shadow-md focus:outline-none
+                        flex justify-between {{ answer == playeranswer.pickedanswer ? "bg-gray-100 text-black" : "text-white" }}" tabindex="-1">
+                        {% if playeranswer.question.goodanswer.id == answer.id %}
+                            <span class="mr-4">&#10004;</span>
+                        {% else %}
+                            <span class="mr-4">&#10060;</span>
+                        {% endif %}
+                        <span class="flex-1">{{answer.content}}</span>
+                    </div>
+                {% endfor %}            
+        </div>
+        </div>
+    </div>
+    </div>
+        <a href="{{ path("quizz_nextquestion", { id: playeranswer.quizz.id }) }}" class="btn btn-secondary col-6" style="width:inherit"tabindex="-1">
+            Question suivante
+        </a>
 </div>
