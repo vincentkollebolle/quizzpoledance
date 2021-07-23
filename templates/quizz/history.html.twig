@@ -16,6 +16,7 @@
                     <th>Pseudo</th>
                     <th>Niveau</th>
                     <th>Score</th>
+                    <th>Difficulty</th>
                     <th>Date passage</th>
                 </tr>
                 </thead>
@@ -33,20 +34,21 @@
                         </td>
                         <td>{{ quizz.playername }} </td>
                         <td>
-                            {% if quizz.score < 500 %}
+                            {% if quizz.score < 250*(quizz.difficulty / 15) %}
                                 <span class="m-1 border rounded-full px-2">Novice</span>
                                 {# Conditions de succès modulable #}
-                            {% elseif quizz.score  < 2000 %}
+                            {% elseif quizz.score  < 500*(quizz.difficulty / 15) %}
                                 <span class="m-1 border rounded-full px-2">Apprenti</span>
-                            {% elseif quizz.score  < 4000 %}
+                            {% elseif quizz.score  < 1000*(quizz.difficulty / 15) %}
                                 <span class="m-1 border rounded-full px-2">Adepte</span>
-                            {% elseif quizz.score  < 8000 %}
+                            {% elseif quizz.score  < 2500*(quizz.difficulty / 15) %}
                                 <span class="m-1 border rounded-full px-2">Expert</span>
                             {% else %}
                                 <span class="m-1 border rounded-full px-2">Maître  <i class="fas fa-medal"></i></span>
                             {% endif %}
                         </td>
                         <td>{{ quizz.score }}</td>
+                        <td>{{ quizz.difficulty }} </td>
                         <td>{% if quizz.date is not null %} {{ quizz.date|date("d/m/Y") }} {% else %} --- {% endif %}</td>
                     </tr>
                 {% else %}
