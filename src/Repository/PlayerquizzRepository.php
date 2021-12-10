@@ -9,7 +9,7 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @method Playerquizz|null find($id, $lockMode = null, $lockVersion = null)
  * @method Playerquizz|null findOneBy(array $criteria, array $orderBy = null)
- * @method Playerquizz[]    findAll()
+ * @method Playerquizz[]    PlayerquizzRepository::findAll()
  * @method Playerquizz[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class PlayerquizzRepository extends ServiceEntityRepository
