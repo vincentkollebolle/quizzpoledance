@@ -17,13 +17,18 @@ class QuestionType extends AbstractType
     {
         
         $builder
+            ->add('quizz', EntityType::class,  array(
+                'class' => 'App\Entity\Quizz',
+                'choice_label' => 'name',
+                'placeholder' => 'Sélectionner le quizz...',
+            ))
             ->add('title')
             ->add('content')
             // ->add('mediaurl')
             ->add('upload_file', FileType::class, [
                 'label' => false,
                 'mapped' => false, // Tell that there is no Entity to link
-                'required' => true,
+                'required' => false,
                 'constraints' => [
                   new File()
                 ],

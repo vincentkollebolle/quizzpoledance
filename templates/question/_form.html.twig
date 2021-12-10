@@ -1,6 +1,8 @@
 {{ form_start(formquestion) }}
     <div class="w-full flex flex-col items-center my-5">
         <div class="md-input mb-5">
+
+            {{ form_widget(formquestion.quizz) }}
         <h5>Titre :</h5>
             {{ form_widget(formquestion.title) }}
         </div>
