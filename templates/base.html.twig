@@ -58,9 +58,11 @@
               <li class="nav-item">
                 <a class="nav-link text-white" href="{{path('credits')}}"><i class="fab fa-angellist"></i> Remerciements</a>
               </li>
+              {% if is_granted('ROLE_ADMIN') %}
               <li class="nav-item">
                 <a class="nav-link text-white" href="{{path('admin_quizz_index')}}"><i class="fas fa-user-lock"></i> Admin</a>
               </li>
+              {% endif %}
               <span class="btnNav">
                     {% if app.user %}
                     {% if is_granted('ROLE_ADMIN') %}
@@ -71,6 +73,7 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item text-dark" href="{{path('answer_index')}}">Réponses</a></li>
                   <li><a class="dropdown-item text-dark" href="{{path('question_index')}}">Questions</a></li>
+                  <li><a class="dropdown-item text-dark" href="{{path('admin_quizz_index')}}">Quizz</a></li>
                 </ul>
               </li>
                   {% endif %}
