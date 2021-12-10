@@ -1,25 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Pole Dance Quizz{% endblock %}
+{% block title %}Quizz index{% endblock %}
 
 {% block body %}
-    <div class="text-white">
-        <img style="width:250px;" class="rounded-circle my-3" src="{{ asset("img/logo.jpg")}}" alt="logo quizz pole dance" />
-        <h1 class="mt-5 text-xl font-bold">Bientôt un super quizz sur la pole dance !  </h1>
-        <h2 class="mb-4  p-1 px-3">Testez votre connaissance des figures</h2>
-        <p>Déjà <span class="font-bold text-lg text-green-300">{{players|length}}</span> personnes attendent le Quizz et vous ?</p>
-        <p>Donnez votre e-mail et soyez informé(e) lors de la sortie du quizz !</p>
-        {{ form_start(form) }}
-            <div class="w-full flex flex-col items-center mt-5">
-                <div class="md-input mb-4">
-                    {{ form_widget(form.email) }}
-                    <label for="form_email"> Mail </label>
-                </div>
-                <div class="form-error">
-                    {{ form_errors(form.email) }}
-                </div>
-                {{ form_widget(form.save, {'attr': {'value': 'Prevenez-moi !', 'class':'md-btn'}}) }}
-            </div>
-{{ form_end(form) }}
+    <h1>Quizz index</h1>
+    <div class="text-white" style="background-color: white;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for quizz in quizzs %}
+                <tr>
+                    <td>{{ quizz.id }}</td>
+                    <td>{{ quizz.name }}</td>
+                    <td>
+                        <a href="{{ path('admin_quizz_show', {'id': quizz.id}) }}">show</a>
+                        <a href="{{ path('admin_quizz_edit', {'id': quizz.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
+    <a href="{{ path('admin_quizz_new') }}">Create new</a>
 {% endblock %}

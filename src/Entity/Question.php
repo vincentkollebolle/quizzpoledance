@@ -61,6 +61,12 @@ class Question
      */
     private $goodanswer;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Quizz::class, inversedBy="questions")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $quizz;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
@@ -148,6 +154,18 @@ class Question
     public function setGoodanswer(?Answer $goodanswer): self
     {
         $this->goodanswer = $goodanswer;
+
+        return $this;
+    }
+
+    public function getQuizz(): ?Quizz
+    {
+        return $this->quizz;
+    }
+
+    public function setQuizz(?Quizz $quizz): self
+    {
+        $this->quizz = $quizz;
 
         return $this;
     }

@@ -6,7 +6,6 @@ use App\Repository\QuizzRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=QuizzRepository::class)
@@ -22,40 +21,17 @@ class Quizz
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Veuillez renseigner votre nom de joueur.")
      */
-    private $playername;
-
+    private $name;
 
     /**
-     * @ORM\Column(type="integer")
-     * @Assert\NotBlank(message="Veuillez renseigner la difficulté du Quizz.")
+     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="quizz", orphanRemoval=true)
      */
-    public $difficulty;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $score;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Playeranswer::class, mappedBy="quizz")
-     */
-    private $playeranswers;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $date;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true, options={"unsigned":true, "default":1})
-     */
-    private $combo;
+    private $questions;
 
     public function __construct()
     {
-        $this->playeranswers = new ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -63,92 +39,44 @@ class Quizz
         return $this->id;
     }
 
-    public function getPlayername(): ?string
+    public function getName(): ?string
     {
-        return $this->playername;
+        return $this->name;
     }
 
-    public function setPlayername(string $playername): self
+    public function setName(string $name): self
     {
-        $this->playername = $playername;
-
-        return $this;
-    }
-
-    public function getDifficulty(): ?int
-    {
-        return $this->difficulty;
-    }
-
-    public function setDifficulty(int $difficulty): self
-    {
-        $this->difficulty = $difficulty;
-
-        return $this;
-    }
-
-    public function getScore(): ?int
-    {
-        return $this->score;
-    }
-
-    public function setScore(int $score): self
-    {
-        $this->score = $score;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * @return Collection|Playeranswer[]
+     * @return Collection|Question[]
      */
-    public function getPlayeranswers(): Collection
+    public function getQuestions(): Collection
     {
-        return $this->playeranswers;
+        return $this->questions;
     }
 
-    public function addPlayeranswer(Playeranswer $playeranswer): self
+    public function addQuestion(Question $question): self
     {
-        if (!$this->playeranswers->contains($playeranswer)) {
-            $this->playeranswers[] = $playeranswer;
-            $playeranswer->setQuizz($this);
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+            $question->setQuizz($this);
         }
 
         return $this;
     }
 
-    public function removePlayeranswer(Playeranswer $playeranswer): self
+    public function removeQuestion(Question $question): self
     {
-        if ($this->playeranswers->removeElement($playeranswer)) {
+        if ($this->questions->removeElement($question)) {
             // set the owning side to null (unless already changed)
-            if ($playeranswer->getQuizz() === $this) {
-                $playeranswer->setQuizz(null);
+            if ($question->getQuizz() === $this) {
+                $question->setQuizz(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(?\DateTimeInterface $date): self
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    public function getCombo(): ?int
-    {
-        return $this->combo;
-    }
-
-    public function setCombo(?int $combo): self
-    {
-        $this->combo = $combo;
 
         return $this;
     }

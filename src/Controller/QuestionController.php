@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Question;
 use App\Entity\Answer;
-use App\Entity\Quizz;
+use App\Entity\Playerquizz;
 use App\Entity\Playeranswer;
 use App\Form\QuestionType;
 use App\Form\AnswerType;

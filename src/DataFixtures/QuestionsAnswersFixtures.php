@@ -3,6 +3,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Answer;
 use App\Entity\Question;
+use App\Entity\Quizz;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Goutte\Client;
@@ -14,6 +15,13 @@ class QuestionsAnswersFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $client = new Client();
+        // Creation d'un quizz
+        $quizz = new Quizz();
+        $quizz->setName('Pole dance');
+        $manager->persist($quizz);
+        $this->addReference('quizzRef', $quizz);
+
+        // Création des questions
         $url='http://www.poledancestars.fr/album/debutant/pole-dance-debutant/';
         for($i = 1; $i<4; $i++){
             $i == 1 ? $page = '' : $page = $i;
@@ -29,6 +37,7 @@ class QuestionsAnswersFixtures extends Fixture
                 $question = new Question();
                 $question->setTitle($content);
                 $question->setContent('Quel est le nom de cette figure?');
+                $question->setQuizz($this->getReference('quizzRef'));
                 $content_img = file_get_contents($img);
                 
                 //Store in the filesystem.

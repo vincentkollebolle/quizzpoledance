@@ -33,7 +33,7 @@ class Playeranswer
     private $status;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Quizz::class, inversedBy="playeranswers")
+     * @ORM\ManyToOne(targetEntity=Playerquizz::class, inversedBy="playeranswers")
      * @Assert\NotBlank
      */
     private $quizz;
@@ -73,12 +73,12 @@ class Playeranswer
         return $this;
     }
 
-    public function getQuizz(): ?Quizz
+    public function getQuizz(): ?Playerquizz
     {
         return $this->quizz;
     }
 
-    public function setQuizz(?Quizz $quizz): self
+    public function setQuizz(?Playerquizz $quizz): self
     {
         $this->quizz = $quizz;
 

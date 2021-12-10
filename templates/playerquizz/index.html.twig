@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pole Dance Quizz{% endblock %}
+
+{% block body %}
+    <div class="text-white">
+        <img style="width:250px;" class="rounded-circle my-3" src="{{ asset("img/logo.jpg")}}" alt="logo quizz pole dance" />
+        <h1 class="mt-5 text-xl font-bold">Bientôt un super quizz sur la pole dance !  </h1>
+        <h2 class="mb-4  p-1 px-3">Testez votre connaissance des figures</h2>
+        <p>Déjà <span class="font-bold text-lg text-green-300">{{players|length}}</span> personnes attendent le Quizz et vous ?</p>
+        <p>Donnez votre e-mail et soyez informé(e) lors de la sortie du quizz !</p>
+        {{ form_start(form) }}
+            <div class="w-full flex flex-col items-center mt-5">
+                <div class="md-input mb-4">
+                    {{ form_widget(form.email) }}
+                    <label for="form_email"> Mail </label>
+                </div>
+                <div class="form-error">
+                    {{ form_errors(form.email) }}
+                </div>
+                {{ form_widget(form.save, {'attr': {'value': 'Prevenez-moi !', 'class':'md-btn'}}) }}
+            </div>
+{{ form_end(form) }}
+    </div>
+{% endblock %}
