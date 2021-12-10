@@ -19,6 +19,13 @@ class QuizzRepository extends ServiceEntityRepository
         parent::__construct($registry, Quizz::class);
     }
 
+public function findByQuizz($quizz){
+        return $this->createQueryBuilder('question')
+            ->where('quizz== :id_quizz')
+            ->setParameter('id_quizz',$quizz)
+            ->getQuery()
+            ->getResult();
+}
     // /**
     //  * @return Quizz[] Returns an array of Quizz objects
     //  */

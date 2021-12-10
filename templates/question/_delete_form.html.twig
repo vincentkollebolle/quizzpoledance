@@ -2,6 +2,6 @@
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ question.id) }}">
     <a class="md-btn" href="{{ path('question_edit', {'id': question.id}) }}"><button type="button" class="btn btn-light">Modifier</button></a>
-    <a class="md-btn" href="{{ path('question_index') }}"><button type="button" class="btn btn-light">Retour à la liste</button></a>
+    <a class="md-btn" href="{{ path('admin_quizz_show',['id'=>$question->getQuizz()]) }}"><button type="button" class="btn btn-light">Retour à la liste</button></a>
     <button class="md-btn btn btn-danger">Supprimer</button>
 </form>

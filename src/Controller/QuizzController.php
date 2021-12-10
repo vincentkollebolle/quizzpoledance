@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Quizz;
 use App\Form\QuizzType;
+use App\Repository\QuestionRepository;
 use App\Repository\QuizzRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -51,10 +52,11 @@ class QuizzController extends AbstractController
     /**
      * @Route("/{id}", name="admin_quizz_show", methods={"GET"})
      */
-    public function show(Quizz $quizz): Response
+    public function show(Quizz $quizz, QuestionRepository $questionRepository): Response
     {
         return $this->render('quizz/show.html.twig', [
             'quizz' => $quizz,
+            'questions' => $questionRepository->findByQuizz($quizz->getId())
         ]);
     }
 
