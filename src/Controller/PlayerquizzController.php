@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Quizz;
 use App\Repository\PlayeranswerRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -232,6 +234,12 @@ class PlayerquizzController extends AbstractController
                     'Intermédiaire' => 25,
                     'Avancé' => 50,
                 ],
+            ])
+            ->add('quizz', EntityType::class, [
+                // looks for choices from this entity
+                'class' => Quizz::class,
+                // uses the User.username property as the visible option string
+                'choice_label' => 'name'
             ])
             ->add('start', SubmitType::class, ['label' => 'Démarrer le Playerquizz'])
             ->getForm();

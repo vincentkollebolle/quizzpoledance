@@ -53,6 +53,11 @@ class Playerquizz
      */
     private $combo;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Quizz::class, inversedBy="playerquizzs")
+     */
+    private $quizz;
+
     public function __construct()
     {
         $this->playeranswers = new ArrayCollection();
@@ -149,6 +154,18 @@ class Playerquizz
     public function setCombo(?int $combo): self
     {
         $this->combo = $combo;
+
+        return $this;
+    }
+
+    public function getQuizz(): ?Quizz
+    {
+        return $this->quizz;
+    }
+
+    public function setQuizz(?Quizz $quizz): self
+    {
+        $this->quizz = $quizz;
 
         return $this;
     }

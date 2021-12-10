@@ -29,9 +29,16 @@ class Quizz
      */
     private $questions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Playerquizz::class, mappedBy="quizz")
+     */
+    private $playerquizzs;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
+        $this->playerquizzs = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -80,4 +87,36 @@ class Quizz
 
         return $this;
     }
+
+    /**
+     * @return Collection|Playerquizz[]
+     */
+    public function getPlayerquizzs(): Collection
+    {
+        return $this->playerquizzs;
+    }
+
+    public function addPlayerquizz(Playerquizz $playerquizz): self
+    {
+        if (!$this->playerquizzs->contains($playerquizz)) {
+            $this->playerquizzs[] = $playerquizz;
+            $playerquizz->setQuizz($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayerquizz(Playerquizz $playerquizz): self
+    {
+        if ($this->playerquizzs->removeElement($playerquizz)) {
+            // set the owning side to null (unless already changed)
+            if ($playerquizz->getQuizz() === $this) {
+                $playerquizz->setQuizz(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }
